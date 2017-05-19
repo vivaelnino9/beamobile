@@ -9,7 +9,7 @@
        <!-- if user just registered -->
        <div class="col-md-4">
          <h2>Almost there!</h2>
-         <h4>Confirm your email to log in!</h4>
+         <h4>Confirm your email to <a href="{% url 'login' %}">log in!</a></h4>
        </div>
        <div class="col-md-4">
          <p>Didn't get the email? <a href="{% url 'resend_email' email %}">Click to resend.</a><p>
