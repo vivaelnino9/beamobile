@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        {% if error %}
+        <!-- check for form errors -->
+        <h2>Hmmm</h2>
+        <h3>Something went wrong!</h3>
+        <div class="alert alert-danger">
+            <strong>{{ error }}</strong>
+        </div>
+        {% else %}
+        <!-- email confirmation success page -->
+        <h2>Success!</h2>
+        <h3>You are now logged in!</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+{% if not user.is_anonymous %}
+Hello, {{ user.first_name }}!
+{% else %}
+Not logged in
+{% endif %}
+{% endblock %}

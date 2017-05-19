@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+ <div class="row">
+   <div class="col-md-12">
+     <div class="row">
+       {% if registered %}
+       <!-- if user just registered -->
+       <div class="col-md-4">
+         <h2>Almost there!</h2>
+         <h4>Confirm your email to log in!</h4>
+       </div>
+       <div class="col-md-4">
+         <p>Didn't get the email? <a href="{% url 'resend_email' email %}">Click to resend.</a><p>
+       </div>
+       {% else %}
+       <!-- registration page -->
+       <div class="col-md-4">
+         <h2>Register</h2>
+         <form method="post">
+           {% csrf_token %}
+             {% for field in form %}
+               {% if field.errors %}
+               <!-- check for form errors -->
+                 {% for error in field.errors %}
+                     <div class="alert alert-danger">
+                         <strong>
+                           {% if error == 'This field is required.' %}
+                           Please enter a {{ field.label }}
+                           {% else %}
+                           {{ error }}
+                           {% endif %}
+                         </strong>
+                     </div>
+                 {% endfor %}
+               {% endif %}
+             {% endfor %}
+           <div class="form-group">
+             <div class="col-xs-6 col-sm-4 required ">
+               <label for="inputFirstName">First</label>
+               <input id="inputFirstName" name="first_name" class="form-control" type="text" title="Enter first name" placeholder="First Name" >
+             </div>
+             <div class="col-xs-6 col-sm-4 required">
+               <label for="inputLastName">Last</label>
+               <input id="inputLastName" name="last_name" class="form-control" type="text" title="Enter last name" placeholder="Last Name" >
+             </div>
+           </div>
+           <!-- <div class="form-group">
+             <label for="inputUsername">Username</label>
+             <input id="inputUsername" name="username" class="form-control" type="text" title="Enter username" placeholder="Username" required>
+           </div> -->
+           <div class="form-group required">
+             <label for="inputEmail">Email</label>
+             <input id="inputEmail" name="email" class="form-control" type="email" title="Enter email" placeholder="Email" >
+           </div>
+           <div class="form-group">
+             <div class="col-xs-6 col-sm-4 required">
+               <label for="inputZip">Zip Code</label>
+               <input id="inputZip" name="zip_code" class="form-control" type="number" title="Enter zip code" placeholder="Zip Code" >
+             </div>
+           </div>
+           <div class="form-group required" style="display:inline-block;">
+             <label for="inputPassword">Password</label>
+             <input id="inputPassword" name="password" class="form-control" type="password" title="Enter password" placeholder="Password"  >
+             <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="inputConfirmPassword" >
+           </div>
+           <div>
+            <a href="{% url 'login' %}" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-default">Register</button>
+          </div>
+         </form>
+       </div>
+       {% endif %}
+     </div>
+   </div>
+ </div>
+ <script>
+ {% for field in form.errors %}
+ // for each error, highlight corresponding field
+ $( "input[name='{{ field }}']").attr( "class","form-control alert-danger");
+ {% endfor %}
+ </script>
+{% endblock %}

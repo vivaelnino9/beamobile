@@ -1,0 +1,15 @@
+/* Register Page */
+
+.col-xs-6 {
+    padding-left: 0px;
+    margin-bottom: 15px;
+}
+#inputPassword {
+    margin-bottom: 10px;
+}
+.required:before {
+    content: '*';
+    color: red;
+}
+
+/* endRegister */
