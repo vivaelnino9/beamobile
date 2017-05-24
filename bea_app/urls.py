@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^resend_email/(?P<email>[\w|\W]+)/$',views.resend_email, name='resend_email'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
+    url(r'^challenge_list/$', views.challenge_list, name='challenge_list'),
+    url(r'^challenge_detail/$', views.challenge_detail, name='challenge_detail'),
 ]

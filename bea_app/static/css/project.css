@@ -1,3 +1,19 @@
+footer {
+    text-align: center;
+}
+
+/* Nav Bar*/
+
+.navbar {
+    background-color: #eae9e9;
+}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: transparent;
+}
+
+/* endNavBar */
+
+
 /* Register Page */
 
 .col-xs-6 {
@@ -13,3 +29,66 @@
 }
 
 /* endRegister */
+
+
+/* Challenge List Page */
+
+.sectionTitle, .footerButton {
+    font-weight: bold;
+}
+.btn-default:hover {
+    background-color: #fff;
+}
+.footerButton {
+    border-radius: 25px;
+    padding: 10px 0px;
+    text-align: center;
+    background-color: #f1ecec;
+}
+.footerButton:hover, .footerButton:active {
+    background-color: #d2d2d2;
+}
+.footerButtonLink, .footerButtonLink:hover {
+    color: black;
+    text-decoration: none;
+}
+
+/* endChallengeList */
+
+
+/* Challenge Detail Page */
+
+.city {
+    padding-right: 0px;
+}
+.state {
+    padding-right: 10px;
+}
+.pageHeader {
+    text-align: center;
+}
+.locationHeader {
+    margin-top: 15px;
+}
+.submitButtonDiv {
+    text-align: center;
+    width: 100%;
+}
+.submit {
+    padding: 6px 60px;
+}
+
+/* endChallengeDetail */
+
+locationHeader {
+    margin-top: 15px;
+}
+.submitButtonDiv {
+    text-align: center;
+    width: 100%;
+}
+.submit {
+    padding: 6px 60px;
+}
+
+/* endChallengeDetail */

@@ -10,7 +10,7 @@ def incorrect_pass():
     return "Your username and password didn't match."
 
 def email_does_not_exist():
-    return "No accounts with that username exist."
+    return "No accounts with that email exist."
 
 def confirmation_error(request,user,):
     # create confirmation error message with button to resend email

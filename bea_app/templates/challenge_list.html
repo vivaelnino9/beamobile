@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row" style="text-align:center;">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="sectionTitle">Current Challenge</h3>
+        <h4>Student Mentorship</h4>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+        <p><small><b>Points to earn: 15&nbsp;&nbsp;|&nbsp;&nbsp;Time left: 22 days</b></small></p>
+        <p><a class="btn btn-default" href="{% url 'challenge_detail' %}" role="button">Go there »</a></p>
+      </div><hr>
+      <div class="row">
+        <div class="col-md-4">
+          <h3 class="sectionTitle">Bonus Challenge</h3>
+          <h4>Event Volunteer</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <p><small><b>Points to earn: 10&nbsp;&nbsp;|&nbsp;&nbsp;Time left: 36 days</b></small></p>
+          <p><a class="btn btn-default" href="#" role="button">Go there »</a></p>
+        </div>
+      </div><hr>
+      <div class="row">
+        <div class="col-md-4">
+          <h3 class="sectionTitle">Acts</h3>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <p><a class="btn btn-default" href="#" role="button">Go there »</a></p>
+        </div>
+      </div><hr>
+      <div class="col-md-4">
+        <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Show My Activity</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

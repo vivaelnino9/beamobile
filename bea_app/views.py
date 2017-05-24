@@ -91,3 +91,11 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('login'))
+def challenge_list(request):
+    return render(request,'challenge_list.html')
+def challenge_detail(request):
+    if request.method == 'POST':
+        pass
+    return render(request,'challenge_detail.html')
+
+########## HELPERS ###########
