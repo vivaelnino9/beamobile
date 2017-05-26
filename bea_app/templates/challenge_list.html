@@ -2,23 +2,25 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row" style="text-align:center;">
+<div class="row center">
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-4">
-        <h3 class="sectionTitle">Current Challenge</h3>
-        <h4>Student Mentorship</h4>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-        <p><small><b>Points to earn: 15&nbsp;&nbsp;|&nbsp;&nbsp;Time left: 22 days</b></small></p>
-        <p><a class="btn btn-default" href="{% url 'challenge_detail' %}" role="button">Go there »</a></p>
+        <h3 class="sectionTitle">Main Challenge</h3>
+        <h4>{{ main.name }}</h4>
+        <p>{{ main.details|truncatechars:125 }}</p>
+        <p><small><b>Points to earn: {{ main.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ main.time_left }} days</b></small></p>
+        <p><small><b>Status: <span class="status" id="{{ main_status }}">{{ main_status|upper }}</span></b></small></p>
+        <p><a class="btn btn-default" href="{% url 'challenge_detail' main.id %}" role="button">Go there »</a></p>
       </div><hr>
       <div class="row">
         <div class="col-md-4">
           <h3 class="sectionTitle">Bonus Challenge</h3>
-          <h4>Event Volunteer</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><small><b>Points to earn: 10&nbsp;&nbsp;|&nbsp;&nbsp;Time left: 36 days</b></small></p>
-          <p><a class="btn btn-default" href="#" role="button">Go there »</a></p>
+          <h4>{{ bonus.name }}</h4>
+          <p>{{ bonus.details|truncatechars:122 }}</p>
+          <p><small><b>Points to earn: {{ bonus.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ bonus.time_left }} days</b></small></p>
+          <p><small><b>Status: <span class="status" id="{{ bonus_status }}">{{ bonus_status|upper }}</span></b></small></p>
+          <p><a class="btn btn-default" href="{% url 'challenge_detail' bonus.id %}" role="button">Go there »</a></p>
         </div>
       </div><hr>
       <div class="row">

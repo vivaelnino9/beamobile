@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^challenge_list/$', views.challenge_list, name='challenge_list'),
-    url(r'^challenge_detail/$', views.challenge_detail, name='challenge_detail'),
+    url(r'^challenge_detail/(?P<challenge_id>[\w|\W]+)/$', views.challenge_detail, name='challenge_detail'),
+    url(r'^accept_challenge/(?P<challenge_id>[\w|\W]+)/$', views.accept_challenge, name='accept_challenge'),
 ]

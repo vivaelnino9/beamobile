@@ -2,58 +2,33 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="row">
+<div class="row center">
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-4">
         <div class="pageHeader">
-          <h2>Student Mentor</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <h4 class="locationHeader">Enter Location Details:</h4>
-        </div><hr>
-        <form method="post">
-          {% csrf_token %}
-         <div class="col-md-4">
-           <div class="row">
-             <div class="col-md-4">
-               <div class="form-group">
-                   <label for="inputAddress">Address</label>
-                   <input name="address" type="text" class="form-control" id="inputAddress" placeholder="">
-               </div>
-             </div>
-           </div>
-           <div class="row">
-             <div class="col-xs-5 city">
-               <div class="form-group">
-                 <label for="inputCity">City</label>
-                 <input name="city" type="text" class="form-control" id="inputCity" placeholder="">
-               </div>
-             </div>
-             <div class="col-xs-3 state">
-               <div class="form-group">
-                 <label for="inputState">State</label>
-                 <input name="state" type="text" class="form-control" id="inputState" placeholder="">
-               </div>
-             </div>
-             <div class="col-xs-4">
-               <div class="form-group">
-                 <label for="inputZip">Zip</label>
-                 <input id="inputZip" name="zip_code" class="form-control" type="number" title="Enter zip code" pattern="[0-9]{5}" placeholder="" >
-               </div>
-             </div>
-           </div>
-         </div>
-         <div class="submitButtonDiv">
-           <button type="submit" class="btn btn-default submit">Submit</button>
-         </div>
-        </form>
+          <h2>{{ challenge.name }}</h2>
+          <p>{{ challenge.details }}</p>
+          <p><small><b>Points to earn: {{ challenge.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ challenge.time_left }} days</b></small></p>
+          <p><small><b>Status: <span class="status" id="{{ status }}">{{ status|upper }}</span></b></small></p>
+        </div>
+        {% if status != 'completed' %}
+        {% include "location_form.html" %}
+        {% endif %}
       </div><hr>
       <div class="col-md-4">
-        <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Accept this Challenge</a></p>
+        <p class="footerButton"><a class="footerButtonLink" href="{% url 'accept_challenge' challenge.id %}" role="button">Accept this Challenge</a></p>
         <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Do This Later</a></p>
         <p class="footerButton"><a class="footerButtonLink" target="_blank" href="https://www.yellowpages.com/" role="button">Show Yellowpages.com</a></p>
       </div>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  function changeColor(dropdownList){if (dropdownList.value){dropdownList.style.color = '#555'};}
+  {% for field in form.errors %}
+  $( "input[name='{{ field }}']").attr( "class","form-control alert-danger");
+  $( "select[name='{{ field }}']").attr( "class","alert-danger");
+  {% endfor %}
+</script>
 {% endblock %}

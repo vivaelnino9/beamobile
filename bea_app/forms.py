@@ -1,11 +1,13 @@
 from django import forms
 from .models import *
+from .choices import *
 
 class UserForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50,required=True)
     last_name = forms.CharField(max_length=50,required=True)
     email = forms.CharField(max_length=50,required=True)
     zip_code = forms.CharField(label="Zip Code",max_length=50,required=True)
+    organization = forms.ModelChoiceField(queryset=Organization.objects.all().order_by('name'))
     password = forms.CharField(widget=forms.PasswordInput(),required=True)
     confirm_password=forms.CharField(label="Confirm Password",widget=forms.PasswordInput(),required=True)
     class Meta:
@@ -30,3 +32,11 @@ class UserForm(forms.ModelForm):
             return cleaned_data
 
         return cleaned_data
+class LocationForm(forms.ModelForm):
+    address = forms.CharField(max_length=50,required=True)
+    city = forms.CharField(max_length=50,required=True)
+    state = forms.ChoiceField(choices=STATE_CHOICES)
+    zip_code = forms.IntegerField()
+    class Meta:
+        model = Location
+        fields = ('address','city','state','zip_code')

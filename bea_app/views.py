@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
@@ -28,6 +29,7 @@ def register(request):
                 first_name=request.POST.get('first_name'),
                 last_name=request.POST.get('last_name'),
                 zip_code=request.POST.get('zip_code'),
+                organization=Organization.objects.get(pk=request.POST.get('organization')),
                 password=request.POST.get('password'),
                 points=0,
             )
@@ -75,7 +77,7 @@ def login(request):
                 if user.is_confirmed:
                     error = False
                     auth_login(request, user)
-                    return HttpResponseRedirect(reverse('index'))
+                    return HttpResponseRedirect(reverse('challenge_list'))
                 else:
                     error = confirmation_error(request,user) # from email.py
             else:
@@ -91,11 +93,56 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('login'))
+
+@login_required
 def challenge_list(request):
-    return render(request,'challenge_list.html')
-def challenge_detail(request):
+    user = request.user
+    main_challenge = Challenge.objects.get(is_main_challenge=True)
+    bonus_challenge = Challenge.objects.get(is_bonus_challenge=True)
+    main_challenge_status = get_challenge_status(user,main_challenge)
+    bonus_challenge_status = get_challenge_status(user,bonus_challenge)
+    return render(request,'challenge_list.html',{
+        'main':main_challenge,
+        'bonus':bonus_challenge,
+        'main_status':main_challenge_status,
+        'bonus_status':bonus_challenge_status,
+    })
+
+@login_required
+def challenge_detail(request,challenge_id):
+    user = request.user
+    challenge = Challenge.objects.get(pk=challenge_id)
+    status = get_challenge_status(user,challenge) if not user.is_anonymous else None
     if request.method == 'POST':
-        pass
-    return render(request,'challenge_detail.html')
+        form = LocationForm(request.POST)
+        if form.is_valid():
+            location = form.save()
+            challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
+            challenge_status.update(status=3)
+            challenge_status.update(location=location)
+            return HttpResponseRedirect(reverse('challenge_list'))
+    else:
+        form = LocationForm()
+    return render(request,'challenge_detail.html',{
+        'challenge':challenge,
+        'status':status,
+        'form':form,
+    })
+
+@login_required
+def accept_challenge(request,challenge_id):
+    user = request.user
+    challenge = Challenge.objects.get(pk=challenge_id)
+    if get_challenge_status(user,challenge) == 'pending':
+        Challenge_Status.objects.create(user=user,challenge=challenge,status=2)
+    return HttpResponseRedirect(reverse('challenge_list'))
+
 
 ########## HELPERS ###########
+
+def get_challenge_status(user,challenge):
+    try:
+        status = Challenge_Status.objects.get(user=user,challenge=challenge).status
+        return dict(STATUS_CHOICES).get(int(status))
+    except ObjectDoesNotExist:
+        return 'pending'

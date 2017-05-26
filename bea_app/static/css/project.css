@@ -1,6 +1,16 @@
 footer {
     text-align: center;
 }
+select {
+    border: 1px solid #ccc;
+    text-align-last: center;
+    height: 34px;
+}
+input, select {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 
 /* Nav Bar*/
 
@@ -64,7 +74,7 @@ footer {
 .state {
     padding-right: 10px;
 }
-.pageHeader {
+.center {
     text-align: center;
 }
 .locationHeader {
@@ -77,10 +87,32 @@ footer {
 .submit {
     padding: 6px 60px;
 }
+.status:before {
+    content: ' \25CF';
+    font-size: 25px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+#pending:before {
+    color: #ffff4d;
+}
+#accepted:before {
+    color: #2c8af1;
+}
+#completed:before {
+    color: #45fb1b;
+}
+.stateDropdown {
+    color: silver;
+    background-color: transparent;
+}
+.stateDropdown option:checked {
+    color: black;
+}
 
 /* endChallengeDetail */
 
-locationHeader {
+.locationHeader {
     margin-top: 15px;
 }
 .submitButtonDiv {
