@@ -7,4 +7,3 @@ db.sqlite3
 logfile
 __pycache__
 notes.txt
-data.json
