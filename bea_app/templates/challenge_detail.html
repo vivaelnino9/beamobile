@@ -12,7 +12,7 @@
           <p><small><b>Points to earn: {{ challenge.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ challenge.time_left }} days</b></small></p>
           <p><small><b>Status: <span class="status" id="{{ status }}">{{ status|upper }}</span></b></small></p>
         </div>
-        {% if status != 'completed' %}
+        {% if status == 'accepted' %}
         {% include "location_form.html" %}
         {% endif %}
       </div><hr>
