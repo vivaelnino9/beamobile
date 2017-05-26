@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
@@ -120,6 +121,7 @@ def challenge_detail(request,challenge_id):
             challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
             challenge_status.update(status=3)
             challenge_status.update(location=location)
+            User.objects.filter(id=user.id).update(points=F('points')+challenge.points)
             return HttpResponseRedirect(reverse('challenge_list'))
     else:
         form = LocationForm()
