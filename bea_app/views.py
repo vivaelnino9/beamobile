@@ -117,7 +117,11 @@ def challenge_detail(request,challenge_id):
     if request.method == 'POST':
         form = LocationForm(request.POST)
         if form.is_valid():
-            location = form.save()
+            form = form.save(commit=False)
+            location = Location.objects.get_or_create(
+                address=form.address, city=form.city,
+                state=form.state, zip_code=form.zip_code
+            )[0]
             challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
             challenge_status.update(status=3)
             challenge_status.update(location=location)
