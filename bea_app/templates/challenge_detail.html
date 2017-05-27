@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load staticfiles app_tags %}
 
 {% block content %}
 <div class="row center">
@@ -9,8 +9,8 @@
         <div class="pageHeader">
           <h2>{{ challenge.name }}</h2>
           <p>{{ challenge.details }}</p>
-          <p><small><b>Points to earn: {{ challenge.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ challenge.time_left }} days</b></small></p>
-          <p><small><b>Status: <span class="status" id="{{ status }}">{{ status|upper }}</span></b></small></p>
+          <p class="activityField"><small>Points to earn: {{ challenge.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ challenge.time_left }} days</small></p>
+          <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status challenge%}">{% get_challenge_status challenge as status %}{{ status|upper }}</span></small></p>
         </div>
         {% if status == 'accepted' %}
         {% include "location_form.html" %}

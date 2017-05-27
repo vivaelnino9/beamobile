@@ -103,20 +103,15 @@ def challenge_list(request):
     user = request.user
     main_challenge = Challenge.objects.get(is_main_challenge=True)
     bonus_challenge = Challenge.objects.get(is_bonus_challenge=True)
-    main_challenge_status = get_challenge_status(user,main_challenge)
-    bonus_challenge_status = get_challenge_status(user,bonus_challenge)
     return render(request,'challenge_list.html',{
         'main':main_challenge,
         'bonus':bonus_challenge,
-        'main_status':main_challenge_status,
-        'bonus_status':bonus_challenge_status,
     })
 
 @login_required
 def challenge_detail(request,challenge_id):
     user = request.user
     challenge = Challenge.objects.get(pk=challenge_id)
-    status = get_challenge_status(user,challenge) if not user.is_anonymous else None
     if request.method == 'POST':
         form = LocationForm(request.POST)
         if form.is_valid():
@@ -135,7 +130,6 @@ def challenge_detail(request,challenge_id):
         form = LocationForm()
     return render(request,'challenge_detail.html',{
         'challenge':challenge,
-        'status':status,
         'form':form,
     })
 

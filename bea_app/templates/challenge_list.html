@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load staticfiles app_tags %}
 
 {% block content %}
 <div class="row center">
@@ -9,18 +9,18 @@
         <h3 class="sectionTitle">Main Challenge</h3>
         <h4>{{ main.name }}</h4>
         <p>{{ main.details|truncatechars:125 }}</p>
-        <p><small><b>Points to earn: {{ main.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ main.time_left }} days</b></small></p>
-        <p><small><b>Status: <span class="status" id="{{ main_status }}">{{ main_status|upper }}</span></b></small></p>
-        <p><a class="btn btn-default" href="{% url 'challenge_detail' main.id %}" role="button">Go there »</a></p>
+        <p class="activityField"><small>Points to earn: {{ main.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ main.time_left }} days</small></p>
+        <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status main %}">{% get_challenge_status main as status %}{{ status|upper }}</span></small></p>
+        <p class="goThere"><a class="btn btn-default" href="{% url 'challenge_detail' main.id %}" role="button">Go there »</a></p>
       </div><hr>
       <div class="row">
         <div class="col-md-4">
           <h3 class="sectionTitle">Bonus Challenge</h3>
           <h4>{{ bonus.name }}</h4>
           <p>{{ bonus.details|truncatechars:122 }}</p>
-          <p><small><b>Points to earn: {{ bonus.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ bonus.time_left }} days</b></small></p>
-          <p><small><b>Status: <span class="status" id="{{ bonus_status }}">{{ bonus_status|upper }}</span></b></small></p>
-          <p><a class="btn btn-default" href="{% url 'challenge_detail' bonus.id %}" role="button">Go there »</a></p>
+          <p class="activityField"><small>Points to earn: {{ bonus.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ bonus.time_left }} days</small></p>
+          <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status bonus %}">{% get_challenge_status bonus as status %}{{ status|upper }}</span></small></p>
+          <p class="goThere"><a class="btn btn-default" href="{% url 'challenge_detail' bonus.id %}" role="button">Go there »</a></p>
         </div>
       </div><hr>
       <div class="row">

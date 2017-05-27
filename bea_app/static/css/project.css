@@ -46,6 +46,9 @@ input, select {
 .sectionTitle, .footerButton {
     font-weight: bold;
 }
+.goThere {
+    margin-top: 5px;
+}
 .btn-default:hover {
     background-color: #fff;
 }
