@@ -15,10 +15,10 @@ class Organization(models.Model):
         return self.name
 
 class Location(models.Model):
-    address = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50,choices=STATE_CHOICES)
-    zip_code = models.PositiveIntegerField()
+    address = models.CharField(verbose_name='Address',max_length=50)
+    city = models.CharField(verbose_name='City',max_length=50)
+    state = models.CharField(verbose_name='State',max_length=50,choices=STATE_CHOICES)
+    zip_code = models.PositiveIntegerField(verbose_name='Zip Code',)
     class Meta:
         db_table = 'locations'
 
@@ -37,7 +37,12 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
         blank=True,null=True,
         default=0
     )
-    organization = models.ForeignKey(Organization,null=True,on_delete=models.SET_NULL)
+    organization = models.ForeignKey(
+        Organization,
+        verbose_name='Organization',
+        null=True,
+        on_delete=models.SET_NULL
+    )
     class Meta:
         db_table = 'users'
 
@@ -85,18 +90,21 @@ class Challenge(models.Model):
 class Challenge_Status(models.Model):
     user = models.ForeignKey(
         User,
+        verbose_name='User',
         related_name='user',
         null=True,
         on_delete=models.SET_NULL
     )
-    challenge = models.OneToOneField(Challenge)
+    challenge = models.OneToOneField(Challenge,verbose_name='Challenge')
     status = models.CharField(
+        verbose_name='Status',
         choices=STATUS_CHOICES,
         default=1,
         max_length=50
     )
     location = models.ForeignKey(
         Location,
+        verbose_name='Location',
         related_name='location',
         blank=True,null=True,
         on_delete=models.SET_NULL
@@ -111,6 +119,7 @@ class Challenge_Status(models.Model):
 class Act(models.Model):
     user = models.ForeignKey(
         User,
+        verbose_name='User',
         related_name='user_act',
         null=True,
         on_delete=models.SET_NULL
