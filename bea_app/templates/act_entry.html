@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row center">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="pageHeader">
+          <h3>Tell us about your act:</h3><br>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-md-4">
+        <form method="post" id="act_form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_name">Title</label>
+            <input id="id_name" name="name" class="form-control" maxlength="50" type="text" title="Enter a title">
+          </div>
+          <div class="form-group">
+            <label for="id_details">Details</label>
+            <textarea name="details" class="form-control" cols="25" rows="5" maxlength="200" required id="id_details"></textarea>
+          </div>
+          <input type="hidden" name="public" id="public">
+        </form>
+      </div>
+    </div><hr>
+    <div class="row">
+      <div class="col-md-4">
+        <p class="footerButton"><a class="footerButtonLink" onclick="submit(true)" role="button">Share with Be A</a></p>
+        <p class="footerButton"><a class="footerButtonLink" onclick="submit(false)" role="button">Save for Myself</a></p>
+        <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Cancel</a></p>
+      </div>
+    </div>
+   </div>
+  </div>
+</div>
+<script>
+function submit(public){
+  var form = document.getElementById("act_form");
+  if (public)
+    document.getElementById("public").value=true;
+  form.submit();
+
+}
+</script>
+{% endblock %}

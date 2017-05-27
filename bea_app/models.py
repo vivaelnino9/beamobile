@@ -101,8 +101,26 @@ class Challenge_Status(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
+    date_completed = models.DateField(verbose_name='Date Completed',blank=True,null=True,)
+    created_on = models.DateField(verbose_name='Created On',default=timezone.now)
     class Meta:
         db_table = 'challenge_status'
 
     def __str__(self):
         return self.status
+class Act(models.Model):
+    user = models.ForeignKey(
+        User,
+        related_name='user_act',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    name = models.CharField(verbose_name='Name',max_length=50)
+    details = models.TextField(verbose_name='Details',max_length=500)
+    public = models.BooleanField(verbose_name='Public',default=False)
+    created_on = models.DateField(verbose_name='Created On',default=timezone.now)
+    class Meta:
+        db_table = 'acts'
+
+    def __str__(self):
+        return self.name

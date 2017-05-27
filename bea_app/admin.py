@@ -18,9 +18,9 @@ class ChallengeStatusAdminForm(forms.ModelForm):
     model = Challenge_Status
 
 class ChallengeStatusAdmin(admin.ModelAdmin):
-    list_display = ('user','challenge','status')
+    list_display = ('user','challenge','status','location','date_completed')
     search_fields = ['user','challenge','status']
-    list_filter = ['user','challenge','status']
+    list_filter = ['user','challenge','status','date_completed']
     list_per_page = 20
     form = ChallengeStatusAdminForm
 
@@ -61,3 +61,15 @@ class ChallengeAdmin(admin.ModelAdmin):
     form = ChallengeAdminForm
 
 admin.site.register(Challenge,ChallengeAdmin)
+
+class ActAdminForm(forms.ModelForm):
+    model = Act
+
+class ActAdmin(admin.ModelAdmin):
+    list_display = ('user','name','public',)
+    search_fields = ['user','name',]
+    list_filter = ['public',]
+    list_per_page = 20
+    form = ActAdminForm
+
+admin.site.register(Act,ActAdmin)

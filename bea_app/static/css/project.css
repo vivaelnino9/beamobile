@@ -90,6 +90,7 @@ input, select {
 .status:before {
     content: ' \25CF';
     font-size: 25px;
+    line-height: 15px;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
@@ -124,3 +125,33 @@ input, select {
 }
 
 /* endChallengeDetail */
+
+
+/* My Activity Page */
+
+.sectionPoints {
+    float: right;
+    margin-right: 5px;
+    font-weight: bold;
+}
+.topHR {
+    margin-top: 10px;
+}
+.activityName {
+    margin-bottom: 1px;
+}
+.activityName, .activityPoints {
+    display: inline;
+}
+.activityPoints {
+    float: right;
+}
+.activityField {
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+.activityFields p:first-child {
+    margin-top: 5px;
+}
+
+/* endActivityPage */

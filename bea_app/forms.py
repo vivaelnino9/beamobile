@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import Textarea
 from .models import *
 from .choices import *
 
@@ -40,3 +41,14 @@ class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
         fields = ('address','city','state','zip_code')
+
+class ActForm(forms.ModelForm):
+    name = forms.CharField(max_length=50,required=True)
+    details = forms.CharField(max_length=200,required=True,widget=forms.Textarea)
+    public = forms.BooleanField(required=False)
+    class Meta:
+        model = Act
+        fields = ('name','details')
+        widgets = {
+            'details': Textarea(attrs={'cols': 20, 'rows': 5}),
+        }

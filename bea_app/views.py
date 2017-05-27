@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.utils import timezone
+from itertools import chain
+from operator import attrgetter
 
 from simple_email_confirmation.models import EmailAddress
 
@@ -125,6 +128,7 @@ def challenge_detail(request,challenge_id):
             challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
             challenge_status.update(status=3)
             challenge_status.update(location=location)
+            challenge_status.update(date_completed=timezone.now())
             User.objects.filter(id=user.id).update(points=F('points')+challenge.points)
             return HttpResponseRedirect(reverse('challenge_list'))
     else:
@@ -143,6 +147,38 @@ def accept_challenge(request,challenge_id):
         Challenge_Status.objects.create(user=user,challenge=challenge,status=2)
     return HttpResponseRedirect(reverse('challenge_list'))
 
+@login_required
+def act_entry(request):
+    if request.method == 'POST':
+        form = ActForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            public = form.cleaned_data['public']
+            act = form.save(commit=False)
+            act.user = user
+            act.public = public
+            act.save()
+            User.objects.filter(id=user.id).update(points=F('points')+5)
+            return HttpResponseRedirect(reverse('challenge_list'))
+    else:
+        form = ActForm()
+    return render(request,'act_entry.html',{
+        'form':form,
+    })
+
+@login_required
+def my_activity(request):
+    user = request.user
+    challenges = Challenge_Status.objects.filter(user=user)
+    acts = Act.objects.filter(user=user)
+    activities = sorted(
+        chain(challenges, acts),
+        key=attrgetter('created_on')
+    )
+    return render(request,'my_activity.html',{
+        'user':user,
+        'activities':activities,
+    })
 
 ########## HELPERS ###########
 

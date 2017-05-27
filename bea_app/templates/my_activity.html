@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles app_tags %}
+
+{% block content %}
+<div class="row" >
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="pageHeader center"><h3 class="sectionTitle">Activities to Date</h3></div>
+        <p class="sectionPoints">Points</p><br>
+        <hr class="topHR">
+        {% for activity in activities %}
+        {% if activity.challenge %}
+        <!-- if activity is a Challenge -->
+        <h4 class="activityName">{{ activity.challenge.name }}</h4>
+        <p class="activityPoints">{{ activity.challenge.points }}</p>
+        <div class="activityFields">
+          <p class="activityField"><small>Date Started: {{ activity.challenge.date_start|date:"m/d/y" }}</small></p>
+          <p class="activityField"><small>Date Completed: {% if activity.date_completed %}{{ activity.date_completed|date:"m/d/y" }}{% else %}-{% endif %}</small></p>
+          <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status activity.challenge%}">{% get_challenge_status activity.challenge as status %}{{ status|upper }}</span></small></p>
+        </div><hr>
+        {% else %}
+        <!-- activity is an Act -->
+        <h4 class="activityName">{{ activity.name }}</h4>
+        <p class="activityPoints">5</p>
+        <div class="activityFields">
+          <p class="activityField"><small>Date: {{ activity.created_on|date:"m/d/y" }}</small></p>
+        </div><hr>
+        {% endif %}
+        {% endfor %}
+        <p class="sectionPoints">Total Points: {{ user.points }}</p><br><hr>
+        <div class="col-md-4">
+          <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Friend Request</a></p>
+          <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Friend Activity</a></p>
+          <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Back to List</a></p>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
