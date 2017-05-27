@@ -135,11 +135,11 @@ input, select {
 .topSection {
     margin-top: 20px;
 }
-.sectionEmail, .sectionPoints {
+.sectionName, .sectionPoints {
     margin-right: 5px;
     font-weight: bold;
 }
-.sectionEmail {
+.sectionName {
     float: left;
 }
 .sectionPoints {
