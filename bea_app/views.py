@@ -201,8 +201,8 @@ def friend_request(request):
 @login_required
 def friend_activity(request):
     user = request.user
-    friends = Friend.objects.friends(request.user)
-    requests = Friend.objects.unrejected_requests(user=request.user)
+    friends = Friend.objects.friends(user)
+    requests = Friend.objects.unrejected_requests(user=user)
     return render(request,'friend_activity.html',{
         'friends':friends,
         'requests':requests,
