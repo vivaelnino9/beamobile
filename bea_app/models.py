@@ -95,7 +95,11 @@ class Challenge_Status(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
-    challenge = models.OneToOneField(Challenge,verbose_name='Challenge')
+    challenge = models.ForeignKey(
+        Challenge,
+        verbose_name='Challenge',
+        related_name='challenge_status',
+    )
     status = models.CharField(
         verbose_name='Status',
         choices=STATUS_CHOICES,

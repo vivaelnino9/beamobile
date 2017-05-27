@@ -38,10 +38,12 @@ def register(request):
                 password=request.POST.get('password'),
                 points=0,
             )
-            # send_confirmation_email(request,user) # from email.py
-            email = EmailAddress.objects.get(email=user.email)
-            user.confirm_email(email.key)
-            auth_login(request, user)
+            send_confirmation_email(request,user) # from email.py
+            # ~~~ For Testing ~~~~
+            # email = EmailAddress.objects.get(email=user.email)
+            # user.confirm_email(email.key)
+            # auth_login(request, user)
+            # ~~~~~~~~~~~~~~~~~~~
             registered = True
 
     else:
