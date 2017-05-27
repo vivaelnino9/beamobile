@@ -147,16 +147,20 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mcbride.lucas9@gmail.com'
-if not EMAIL_HOST_PASSWORD:
+try:
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+except KeyError:
+    pass
 EMAIL_PORT = 587
 
 # Media Settings
-if not AWS_STORAGE_BUCKET_NAME:
+try:
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
     MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+except KeyError:
+    pass
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 MEDIA_ROOT = MEDIA_URL
