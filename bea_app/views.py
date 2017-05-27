@@ -137,7 +137,7 @@ def challenge_detail(request,challenge_id):
 def accept_challenge(request,challenge_id):
     user = request.user
     challenge = Challenge.objects.get(pk=challenge_id)
-    if get_challenge_status(user,challenge) == 'pending':
+    if not Challenge_Status.objects.filter(user=user,challenge=challenge).exists():
         Challenge_Status.objects.create(user=user,challenge=challenge,status=2)
     return HttpResponseRedirect(reverse('challenge_list'))
 
@@ -175,10 +175,3 @@ def my_activity(request):
     })
 
 ########## HELPERS ###########
-
-def get_challenge_status(user,challenge):
-    try:
-        status = Challenge_Status.objects.get(user=user,challenge=challenge).status
-        return dict(STATUS_CHOICES).get(int(status))
-    except ObjectDoesNotExist:
-        return 'pending'

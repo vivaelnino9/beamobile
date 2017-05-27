@@ -98,7 +98,7 @@ class Challenge_Status(models.Model):
     location = models.ForeignKey(
         Location,
         related_name='location',
-        null=True,
+        blank=True,null=True,
         on_delete=models.SET_NULL
     )
     date_completed = models.DateField(verbose_name='Date Completed',blank=True,null=True,)
