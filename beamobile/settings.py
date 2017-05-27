@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -141,5 +147,8 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mcbride.lucas9@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
+
+# Media Settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+MEDIA_ROOT = MEDIA_URL
