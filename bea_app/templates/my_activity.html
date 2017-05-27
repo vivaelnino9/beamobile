@@ -25,13 +25,15 @@
         <p class="activityPoints">5</p>
         <div class="activityFields">
           <p class="activityField"><small>Date: {{ activity.created_on|date:"m/d/y" }}</small></p>
-        </div><hr>
+        </div>
         {% endif %}
+        {% empty %}
+        <p class="emptyActivities">You have not done any activities!</p>
         {% endfor %}
-        <p class="sectionPoints">Total Points: {{ user.points }}</p><br><hr>
+        <hr><p class="sectionPoints">Total Points: {{ user.points }}</p><br><hr>
         <div class="col-md-4">
-          <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Friend Request</a></p>
-          <p class="footerButton"><a class="footerButtonLink" href="#" role="button">Friend Activity</a></p>
+          <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_request' %}" role="button">Friend Request</a></p>
+          <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_activity' %}" role="button">Friend Activity</a></p>
           <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Back to List</a></p>
         </div>
       </div>

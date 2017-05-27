@@ -2,13 +2,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from itertools import chain
 from operator import attrgetter
 
+from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
 
 from .models import *
@@ -37,7 +38,10 @@ def register(request):
                 password=request.POST.get('password'),
                 points=0,
             )
-            send_confirmation_email(request,user) # from email.py
+            # send_confirmation_email(request,user) # from email.py
+            email = EmailAddress.objects.get(email=user.email)
+            user.confirm_email(email.key)
+            auth_login(request, user)
             registered = True
 
     else:
@@ -173,5 +177,39 @@ def my_activity(request):
         'user':user,
         'activities':activities,
     })
+
+@login_required
+def friend_request(request):
+    user = request.user
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            other_user = User.objects.get(email=email)
+            msg = 'Hi! ' + user.get_full_name() + ' would like to add you!'
+            Friend.objects.add_friend(
+                request.user,  # sender
+                other_user,    # recipient
+                message=msg
+            )
+        except ObjectDoesNotExist:
+            print('kek')
+    return render(request,'friend_request.html',{
+    })
+
+@login_required
+def friend_activity(request):
+    user = request.user
+    friends = Friend.objects.friends(request.user)
+    requests = Friend.objects.unrejected_requests(user=request.user)
+    return render(request,'friend_activity.html',{
+        'friends':friends,
+        'requests':requests,
+    })
+
+@login_required
+def accept_reject_request(request,request_id,accept):
+    friend_request = FriendshipRequest.objects.get(pk=request_id)
+    friend_request.accept() if int(accept) == 1 else friend_request.reject()
+    return HttpResponseRedirect(reverse('friend_activity'))
 
 ########## HELPERS ###########

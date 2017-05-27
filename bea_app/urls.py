@@ -17,4 +17,7 @@ urlpatterns = [
     url(r'^accept_challenge/(?P<challenge_id>[\w|\W]+)/$', views.accept_challenge, name='accept_challenge'),
     url(r'^act_entry/$', views.act_entry, name='act_entry'),
     url(r'^my_activity/$', views.my_activity, name='my_activity'),
+    url(r'^friend_request/$', views.friend_request, name='friend_request'),
+    url(r'^friend_activity/$', views.friend_activity, name='friend_activity'),
+    url(r'^accept_reject_request/(?P<request_id>[\w|\W]+)/(?P<accept>\d+)/$', views.accept_reject_request, name='accept_reject_request'),
 ]

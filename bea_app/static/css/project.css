@@ -132,10 +132,18 @@ input, select {
 
 /* My Activity Page */
 
-.sectionPoints {
-    float: right;
+.topSection {
+    margin-top: 20px;
+}
+.sectionEmail, .sectionPoints {
     margin-right: 5px;
     font-weight: bold;
+}
+.sectionEmail {
+    float: left;
+}
+.sectionPoints {
+    float: right;
 }
 .topHR {
     margin-top: 10px;
@@ -156,5 +164,32 @@ input, select {
 .activityFields p:first-child {
     margin-top: 5px;
 }
+.emptyActivities {
+    text-align: center;
+    margin-bottom: 15px;
+}
 
 /* endActivityPage */
+
+
+/* Friend Activity Page */
+
+.friendRequests {
+    margin-top: 20px;
+}
+.friendRow {
+    height: 40px;
+}
+.friendName {
+    float: left;
+}
+.friendButton {
+    display: inline;
+    float: right;
+    margin-right: 2px;
+}
+.emptyFriends {
+    text-align: center;
+}
+
+/* endFriendActivityPage */

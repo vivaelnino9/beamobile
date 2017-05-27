@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row" >
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="pageHeader center"><h3 class="sectionTitle">Friend Activity</h3></div>
+        <div class="topSection">
+          <p class="sectionEmail">Email</p>
+          <p class="sectionPoints">Points</p><br>
+        </div>
+        <hr class="topHR">
+        <div class="friendList">
+          {% for friend in friends %}
+          <div class="friendRow">
+            <p class="friendName">{{ friend.get_full_name }}</p>
+            <p class="sectionPoints">{{ friend.points }}</p><br>
+          </div>
+          {% empty %}
+          <p class="emptyFriends">You have no friends!</p>
+          {% endfor %}
+        </div>
+        <hr>
+        <div class="pageHeader center"><h4 class="sectionTitle">Requests</h4></div>
+        <div class="friendRequests">
+          {% for request in requests %}
+          <div class="friendRow">
+            <p class="friendName">{{ request.from_user.get_full_name }}</p>
+            <a href="{% url 'accept_reject_request' request.id 0 %}" class="btn btn-danger btn-sm friendButton" role="button">Reject</a>
+            <a href="{% url 'accept_reject_request' request.id 1 %}" class="btn btn-success btn-sm friendButton" role="button">Accept</a>
+          </div>
+          {% empty %}
+          <p class="emptyFriends">You have no friend requests!</p>
+          {% endfor %}
+        </div><hr>
+        <div class="col-md-4">
+          <p class="footerButton"><a class="footerButtonLink" href="{% url 'my_activity' %}" role="button">Back to List</a></p>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

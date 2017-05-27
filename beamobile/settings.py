@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bea_app',
     'simple_email_confirmation',
+    'friendship',
 ]
 
 MIDDLEWARE = [
