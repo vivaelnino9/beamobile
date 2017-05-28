@@ -113,6 +113,11 @@ class Challenge_Status(models.Model):
         blank=True,null=True,
         on_delete=models.SET_NULL
     )
+    feeling = models.CharField(
+        verbose_name='Feeling',
+        max_length=50,
+        blank=True,null=True,
+    )
     date_completed = models.DateField(verbose_name='Date Completed',blank=True,null=True,)
     created_on = models.DateField(verbose_name='Created On',default=timezone.now)
     class Meta:

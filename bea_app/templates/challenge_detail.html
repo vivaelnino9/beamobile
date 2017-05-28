@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="row center">
-  <div class="col-md-12">
+  <div class="col-md-12" id="challengeDetail">
     <div class="row">
       <div class="col-md-4">
         <div class="pageHeader">
@@ -23,12 +23,28 @@
       </div>
     </div>
   </div>
+  {% include "complete_challenge.html" %}
 </div>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
   function changeColor(dropdownList){if (dropdownList.value){dropdownList.style.color = '#555'};}
   {% for field in form.errors %}
   $( "input[name='{{ field }}']").attr( "class","form-control alert-danger");
   $( "select[name='{{ field }}']").attr( "class","alert-danger");
   {% endfor %}
+  $(".complete").click(function(){
+    var form = $("#location_form");
+    form.validate()
+    if (form.valid()){
+      $("#challengeDetail").css("display","none")
+      $("#completeChallenge").css("display","inline")
+    }
+    else
+      $('label.error').css("color","red")
+  });
+  $(".feeling").click(function(){
+    $("#feelingChoice").val($(this).text());
+    $("#location_form").submit();
+  })
 </script>
 {% endblock %}

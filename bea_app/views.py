@@ -1,3 +1,4 @@
+import random
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
@@ -12,9 +13,10 @@ from operator import attrgetter
 from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
 
-from .models import *
-from .forms import *
+from .choices import *
 from .email import *
+from .forms import *
+from .models import *
 
 def index(request):
     return render(request,'index.html')
@@ -118,25 +120,20 @@ def challenge_list(request):
 def challenge_detail(request,challenge_id):
     user = request.user
     challenge = Challenge.objects.get(pk=challenge_id)
+    feelings = [random.choice(GROUP1_CHOICES),random.choice(GROUP2_CHOICES),random.choice(GROUP3_CHOICES)]
     if request.method == 'POST':
         form = LocationForm(request.POST)
         if form.is_valid():
-            form = form.save(commit=False)
-            location = Location.objects.get_or_create(
-                address=form.address, city=form.city,
-                state=form.state, zip_code=form.zip_code
-            )[0]
-            challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
-            challenge_status.update(status=3)
-            challenge_status.update(location=location)
-            challenge_status.update(date_completed=timezone.now())
-            User.objects.filter(id=user.id).update(points=F('points')+challenge.points)
+            location_form = form.save(commit=False)
+            feeling = request.POST.get('feelingChoice')
+            complete_challenge(user,challenge,location_form,feeling)
             return HttpResponseRedirect(reverse('challenge_list'))
     else:
         form = LocationForm()
     return render(request,'challenge_detail.html',{
         'challenge':challenge,
         'form':form,
+        'feelings':feelings,
     })
 
 @login_required
@@ -215,3 +212,14 @@ def accept_reject_request(request,request_id,accept):
     return HttpResponseRedirect(reverse('friend_activity'))
 
 ########## HELPERS ###########
+def complete_challenge(user,challenge,location_form,feeling):
+    location = Location.objects.get_or_create(
+        address=location_form.address, city=location_form.city,
+        state=location_form.state, zip_code=location_form.zip_code
+    )[0]
+    challenge_status = Challenge_Status.objects.filter(user=user,challenge=challenge)
+    challenge_status.update(status=3)
+    challenge_status.update(location=location)
+    challenge_status.update(feeling=feeling)
+    challenge_status.update(date_completed=timezone.now())
+    User.objects.filter(id=user.id).update(points=F('points')+challenge.points)

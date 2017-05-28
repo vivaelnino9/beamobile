@@ -18,7 +18,7 @@ class ChallengeStatusAdminForm(forms.ModelForm):
     model = Challenge_Status
 
 class ChallengeStatusAdmin(admin.ModelAdmin):
-    list_display = ('user','challenge','status','location','date_completed')
+    list_display = ('user','challenge','status','location','feeling','date_completed')
     search_fields = ['user','challenge','status']
     list_filter = ['user','challenge','status','date_completed']
     list_per_page = 20

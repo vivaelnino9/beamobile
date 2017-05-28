@@ -1,0 +1,28 @@
+<div class="row center">
+  <div class="col-md-12" id="completeChallenge" style="display:none;">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="pageHeader">
+          <h2>{{ challenge.name }}</h2>
+          <h4>How did this make you feel?</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row center feelingDiv">
+      <div class="col-md-4">
+        <p class="feeling group1">{{ feelings.0 }}</p>
+      </div>
+      <div class="col-md-4">
+        <p class="feeling group2">{{ feelings.1 }}</p>
+      </div>
+      <div class="col-md-4">
+        <p class="feeling group3">{{ feelings.2 }}</p>
+      </div>
+    </div><hr>
+    <div class="row">
+      <div class="col-md-4">
+        <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Cancel</a></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -59,3 +59,7 @@ STATE_CHOICES = (
     ('WI', _('Wisconsin')),
     ('WY', _('Wyoming')),
 )
+
+GROUP1_CHOICES = ["Happy","Pleased","Delighted","Excited"]
+GROUP2_CHOICES = ["Fulfilled","Contented","Satisfied","Rewarded"]
+GROUP3_CHOICES = ["Grateful","Thankful","Gratified","Appreciative"]

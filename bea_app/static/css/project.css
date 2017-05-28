@@ -116,6 +116,9 @@ input, select {
 
 /* endChallengeDetail */
 
+
+/* Location Form */
+
 .locationHeader {
     margin-top: 15px;
 }
@@ -127,7 +130,26 @@ input, select {
     padding: 6px 60px;
 }
 
-/* endChallengeDetail */
+/* endLocationForm */
+
+
+/* Complete Challenge Page */
+
+.feelingDiv {
+    margin-top: 10px;
+}
+.feeling {
+    text-align: center;
+    height: 80px;
+    padding: 30px;
+    vertical-align: middle;
+    background-image: url('https://s3.amazonaws.com/beamobile/cloud.png');
+    background-size: 150px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* endCompleteChallengePage */
 
 
 /* My Activity Page */
