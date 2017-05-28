@@ -16,7 +16,7 @@
           {% for friend in friends %}
           <div class="friendRow">
             <p class="friendName">{{ friend.get_full_name }}</p>
-            <p class="sectionPoints">{{ friend.points }}</p><br>
+            <p class="sectionPoints">{{ friend.get_points }}</p><br>
           </div>
           {% empty %}
           <p class="emptyFriends">You have no friends!</p>

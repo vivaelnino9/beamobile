@@ -1,9 +1,9 @@
 from django.utils.translation import gettext as _
 
 STATUS_CHOICES = (
-    (1, _("pending")),
-    (2, _("accepted")),
-    (3, _("completed")),
+    (1, _("Pending")),
+    (2, _("Accepted")),
+    (3, _("Completed")),
 )
 
 STATE_CHOICES = (

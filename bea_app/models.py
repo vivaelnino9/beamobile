@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from itertools import chain
+from operator import attrgetter
 
 from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin
 
@@ -32,11 +34,6 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
         max_length=5,
         default=''
     )
-    points = models.PositiveIntegerField(
-        verbose_name='Points',
-        blank=True,null=True,
-        default=0
-    )
     organization = models.ForeignKey(
         Organization,
         verbose_name='Organization',
@@ -48,6 +45,23 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def get_activities(self):
+        challenges = Challenge_Status.objects.filter(user=self)
+        acts = Act.objects.filter(user=self)
+        activities = sorted(
+            chain(challenges, acts),
+            key=attrgetter('created_on')
+        )
+        return activities
+    def get_points(self):
+        challenges = Challenge_Status.objects.filter(user=self,status=3)
+        challenge_points = 0
+        for challenge in challenges:
+            challenge_points += challenge.challenge.points
+        acts = Act.objects.filter(user=self)
+        act_points = len(acts) * 5
+        return challenge_points + act_points
 
 class Challenge(models.Model):
     name = models.CharField(verbose_name='Name',max_length=50)

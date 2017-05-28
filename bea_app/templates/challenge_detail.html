@@ -12,7 +12,7 @@
           <p class="activityField"><small>Points to earn: {{ challenge.points }}&nbsp;&nbsp;|&nbsp;&nbsp;Time left: {{ challenge.time_left }} days</small></p>
           <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status challenge%}">{% get_challenge_status challenge as status %}{{ status|upper }}</span></small></p>
         </div>
-        {% if status == 'accepted' %}
+        {% if status == 'Accepted' %}
         {% include "location_form.html" %}
         {% endif %}
       </div><hr>
@@ -26,25 +26,5 @@
   {% include "complete_challenge.html" %}
 </div>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script type="text/javascript">
-  function changeColor(dropdownList){if (dropdownList.value){dropdownList.style.color = '#555'};}
-  {% for field in form.errors %}
-  $( "input[name='{{ field }}']").attr( "class","form-control alert-danger");
-  $( "select[name='{{ field }}']").attr( "class","alert-danger");
-  {% endfor %}
-  $(".complete").click(function(){
-    var form = $("#location_form");
-    form.validate()
-    if (form.valid()){
-      $("#challengeDetail").css("display","none")
-      $("#completeChallenge").css("display","inline")
-    }
-    else
-      $('label.error').css("color","red")
-  });
-  $(".feeling").click(function(){
-    $("#feelingChoice").val($(this).text());
-    $("#location_form").submit();
-  })
-</script>
+<script src="{% static 'js/challenge_detail.js' %}"></script>
 {% endblock %}

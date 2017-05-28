@@ -7,8 +7,6 @@ from django.db.models import F, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from itertools import chain
-from operator import attrgetter
 
 from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
@@ -38,7 +36,6 @@ def register(request):
                 zip_code=request.POST.get('zip_code'),
                 organization=Organization.objects.get(pk=request.POST.get('organization')),
                 password=request.POST.get('password'),
-                points=0,
             )
             send_confirmation_email(request,user) # from email.py
             # ~~~ For Testing ~~~~
@@ -124,9 +121,8 @@ def challenge_detail(request,challenge_id):
     if request.method == 'POST':
         form = LocationForm(request.POST)
         if form.is_valid():
-            location_form = form.save(commit=False)
             feeling = request.POST.get('feelingChoice')
-            complete_challenge(user,challenge,location_form,feeling)
+            complete_challenge(user,challenge,form,feeling)
             return HttpResponseRedirect(reverse('challenge_list'))
     else:
         form = LocationForm()
@@ -146,16 +142,11 @@ def accept_challenge(request,challenge_id):
 
 @login_required
 def act_entry(request):
+    user = request.user
     if request.method == 'POST':
         form = ActForm(request.POST)
         if form.is_valid():
-            user = request.user
-            public = form.cleaned_data['public']
-            act = form.save(commit=False)
-            act.user = user
-            act.public = public
-            act.save()
-            User.objects.filter(id=user.id).update(points=F('points')+5)
+            complete_act(user,form)
             return HttpResponseRedirect(reverse('challenge_list'))
     else:
         form = ActForm()
@@ -166,12 +157,7 @@ def act_entry(request):
 @login_required
 def my_activity(request):
     user = request.user
-    challenges = Challenge_Status.objects.filter(user=user)
-    acts = Act.objects.filter(user=user)
-    activities = sorted(
-        chain(challenges, acts),
-        key=attrgetter('created_on')
-    )
+    activities = user.get_activities()
     return render(request,'my_activity.html',{
         'user':user,
         'activities':activities,
@@ -182,16 +168,16 @@ def friend_request(request):
     user = request.user
     if request.method == 'POST':
         email = request.POST.get('email')
+        msg = 'Hi! ' + user.get_full_name() + ' would like to add you!'
         try:
             other_user = User.objects.get(email=email)
-            msg = 'Hi! ' + user.get_full_name() + ' would like to add you!'
             Friend.objects.add_friend(
                 request.user,  # sender
                 other_user,    # recipient
                 message=msg
             )
         except ObjectDoesNotExist:
-            print('kek')
+            pass
     return render(request,'friend_request.html',{
     })
 
@@ -212,7 +198,8 @@ def accept_reject_request(request,request_id,accept):
     return HttpResponseRedirect(reverse('friend_activity'))
 
 ########## HELPERS ###########
-def complete_challenge(user,challenge,location_form,feeling):
+def complete_challenge(user,challenge,form,feeling):
+    location_form = form.save(commit=False)
     location = Location.objects.get_or_create(
         address=location_form.address, city=location_form.city,
         state=location_form.state, zip_code=location_form.zip_code
@@ -222,4 +209,10 @@ def complete_challenge(user,challenge,location_form,feeling):
     challenge_status.update(location=location)
     challenge_status.update(feeling=feeling)
     challenge_status.update(date_completed=timezone.now())
-    User.objects.filter(id=user.id).update(points=F('points')+challenge.points)
+
+def complete_act(user,form):
+    public = form.cleaned_data['public']
+    act = form.save(commit=False)
+    act.user = user
+    act.public = public
+    act.save()

@@ -30,7 +30,7 @@
         {% empty %}
         <p class="emptyActivities">You have not done any activities!</p>
         {% endfor %}
-        <hr><p class="sectionPoints">Total Points: {{ user.points }}</p><br><hr>
+        <hr><p class="sectionPoints">Total Points: {{ user.get_points }}</p><br><hr>
         <div class="col-md-4">
           <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_request' %}" role="button">Friend Request</a></p>
           <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_activity' %}" role="button">Friend Activity</a></p>

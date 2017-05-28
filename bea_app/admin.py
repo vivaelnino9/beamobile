@@ -1,28 +1,37 @@
 from django.contrib import admin
 from django import forms
 from .models import *
+from .choices import *
 
 class UserAdminForm(forms.ModelForm):
     model = User
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username','first_name','last_name','zip_code','points','organization')
+    list_display = ('username','first_name','last_name','zip_code','get_points','organization')
     search_fields = ['username',]
-    list_filter = ['zip_code','points','organization']
+    list_filter = ['zip_code','organization']
     list_per_page = 20
     form = UserAdminForm
 
+    def get_points(self,obj):
+        return obj.get_points()
+    get_points.short_description = 'Points'
+    
 admin.site.register(User,UserAdmin)
 
 class ChallengeStatusAdminForm(forms.ModelForm):
     model = Challenge_Status
 
 class ChallengeStatusAdmin(admin.ModelAdmin):
-    list_display = ('user','challenge','status','location','feeling','date_completed')
-    search_fields = ['user','challenge','status']
-    list_filter = ['user','challenge','status','date_completed']
+    list_display = ('user','challenge','get_status','location','feeling','date_completed')
+    search_fields = ['user','challenge']
+    list_filter = ['user','challenge','date_completed']
     list_per_page = 20
     form = ChallengeStatusAdminForm
+
+    def get_status(self,obj):
+        return dict(STATUS_CHOICES).get(int(obj.status))
+    get_status.short_description = 'Status'
 
 admin.site.register(Challenge_Status,ChallengeStatusAdmin)
 

@@ -15,4 +15,4 @@ def get_challenge_status(context,challenge):
         status = Challenge_Status.objects.get(user=user,challenge=challenge).status
         return dict(STATUS_CHOICES).get(int(status))
     except ObjectDoesNotExist:
-        return 'pending'
+        return 'Pending'

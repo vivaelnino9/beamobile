@@ -97,13 +97,13 @@ input, select {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
-#pending:before {
+#Pending:before {
     color: #ffff4d;
 }
-#accepted:before {
+#Accepted:before {
     color: #2c8af1;
 }
-#completed:before {
+#Completed:before {
     color: #45fb1b;
 }
 .stateDropdown {
