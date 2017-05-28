@@ -28,15 +28,7 @@ def register(request):
         form = UserForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
-            user = User.objects.create_user(
-                email,
-                email=email,
-                first_name=request.POST.get('first_name'),
-                last_name=request.POST.get('last_name'),
-                zip_code=request.POST.get('zip_code'),
-                organization=Organization.objects.get(pk=request.POST.get('organization')),
-                password=request.POST.get('password'),
-            )
+            create_user(request,email)
             send_confirmation_email(request,user) # from email.py
             # ~~~ For Testing ~~~~
             # email = EmailAddress.objects.get(email=user.email)
@@ -44,7 +36,6 @@ def register(request):
             # auth_login(request, user)
             # ~~~~~~~~~~~~~~~~~~~
             registered = True
-
     else:
         form = UserForm()
     return render(request, 'register.html',{
@@ -198,6 +189,19 @@ def accept_reject_request(request,request_id,accept):
     return HttpResponseRedirect(reverse('friend_activity'))
 
 ########## HELPERS ###########
+
+def create_user(request,email):
+    user = User.objects.create_user(
+        email,
+        email=email,
+        first_name=request.POST.get('first_name'),
+        last_name=request.POST.get('last_name'),
+        zip_code=request.POST.get('zip_code'),
+        organization=Organization.objects.get(pk=request.POST.get('organization')),
+        password=request.POST.get('password'),
+    )
+    return user
+
 def complete_challenge(user,challenge,form,feeling):
     location_form = form.save(commit=False)
     location = Location.objects.get_or_create(
