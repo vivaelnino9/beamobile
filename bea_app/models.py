@@ -50,8 +50,9 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
         challenges = Challenge_Status.objects.filter(user=self)
         acts = Act.objects.filter(user=self)
         activities = sorted(
-            chain(challenges, acts),
-            key=attrgetter('created_on')
+            chain(acts,challenges),
+            key=attrgetter('created_on'),
+            reverse=True
         )
         return activities
     def get_points(self):
@@ -133,7 +134,7 @@ class Challenge_Status(models.Model):
         blank=True,null=True,
     )
     date_completed = models.DateField(verbose_name='Date Completed',blank=True,null=True,)
-    created_on = models.DateField(verbose_name='Created On',default=timezone.now)
+    created_on = models.DateTimeField(verbose_name='Created On',default=timezone.now)
     class Meta:
         db_table = 'challenge_status'
 
@@ -150,7 +151,7 @@ class Act(models.Model):
     name = models.CharField(verbose_name='Name',max_length=50)
     details = models.TextField(verbose_name='Details',max_length=500)
     public = models.BooleanField(verbose_name='Public',default=False)
-    created_on = models.DateField(verbose_name='Created On',default=timezone.now)
+    created_on = models.DateTimeField(verbose_name='Created On',default=timezone.now)
     class Meta:
         db_table = 'acts'
 
