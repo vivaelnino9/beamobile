@@ -69,21 +69,9 @@ def resend_email(request,email):
 def login(request):
     error = False
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        if EmailAddress.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            if user.check_password(password):
-                if user.is_confirmed:
-                    error = False
-                    auth_login(request, user)
-                    return HttpResponseRedirect(reverse('challenge_list'))
-                else:
-                    error = confirmation_error(request,user) # from email.py
-            else:
-                error = incorrect_pass() # from email.py
-        else:
-            error = email_does_not_exist() # from email.py
+        error = check_login(request)
+        if not error: return HttpResponseRedirect(reverse('challenge_list'))
+        
     # used for resend_email succesfully sent pop up
     try:
         sent = request.session['sent']
@@ -190,6 +178,21 @@ def accept_reject_request(request,request_id,accept):
 
 ########## HELPERS ###########
 
+def check_login(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    if EmailAddress.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        if user.check_password(password):
+            if user.is_confirmed:
+                auth_login(request, user)
+            else:
+                return confirmation_error(request,user)
+        else:
+            return incorrect_pass() # from email.py
+    else:
+        return email_does_not_exist() # from email.py
+    return False
 def create_user(request,email):
     user = User.objects.create_user(
         email,
