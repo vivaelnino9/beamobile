@@ -19,7 +19,7 @@ from .models import *
 def index(request):
     return render(request,'index.html')
 
-def register(request):
+def register(request,friend_id):
     # if valid registration form, create user and send email confirmation.
     # user can't log in till email confirmed
     registered = False
@@ -28,8 +28,11 @@ def register(request):
         form = UserForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
-            create_user(request,email)
+            user = create_user(request,email)
             send_confirmation_email(request,user) # from email.py
+            if User.objects.filter(pk=friend_id).exists():
+                friend = User.objects.get(pk=friend_id)
+                Friend.objects.add_friend(friend,user)
             # ~~~ For Testing ~~~~
             # email = EmailAddress.objects.get(email=user.email)
             # user.confirm_email(email.key)
@@ -156,7 +159,7 @@ def friend_request(request):
                 message=msg
             )
         except ObjectDoesNotExist:
-            pass
+            send_request_email(request,user,email)
     return render(request,'friend_request.html',{
     })
 

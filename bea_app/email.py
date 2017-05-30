@@ -18,13 +18,22 @@ def confirmation_error(request,user,):
     msg = "Make sure you are using the most recent confirmation email."
     error = format_html(msg+'<br><a href="' + href +  '">Click to resend</a> confirmation email')
     return error
+
 def send_confirmation_email(request,user):
-    # build confirmation email with confirmation_email_template and send it
     url = request.build_absolute_uri(reverse('confirm_email', args=[user.id,user.confirmation_key]))
+    html = get_template('confirmation_email_template.html')
+    send_email(user,url,html,user.email)
+
+def send_request_email(request,user,email):
+    url = request.build_absolute_uri(reverse('register',args=[user.id]))
+    html = get_template('request_email_template.html')
+    send_email(user,url,html,email)
+
+def send_email(user,url,html,to):
+    # build confirmation email with confirmation_email_template and send it
     context = {'user': user,'url':url}
     text_content = 'plaintext'
-    html = get_template('confirmation_email_template.html')
     html_content = html.render(context)
-    email = EmailMultiAlternatives("Welcome to Be A!", text_content, to=[user.email])
+    email = EmailMultiAlternatives("Welcome to Be A!", text_content, to=[to])
     email.attach_alternative(html_content, "text/html")
     email.send()
