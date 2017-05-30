@@ -5,6 +5,10 @@ $(".complete").click(function(){
   if (form.valid()){
     $("#challengeDetail").css("display","none")
     $("#completeChallenge").css("display","inline")
+    $("#completeChallenge")[0].scrollIntoView({
+        behavior: "smooth", // or "auto" or "instant"
+        block: "start" // or "end"
+    });
   }
   else
     $('label.error').css("color","red")
