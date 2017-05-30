@@ -149,11 +149,14 @@ def friend_request(request):
         msg = 'Hi! ' + user.get_full_name() + ' would like to add you!'
         try:
             other_user = User.objects.get(email=email)
-            Friend.objects.add_friend(
-                request.user,  # sender
-                other_user,    # recipient
-                message=msg
-            )
+            if not Friend.objects.are_friends(user, other_user) == True:
+                Friend.objects.add_friend(
+                    request.user,  # sender
+                    other_user,    # recipient
+                    message=msg
+                )
+            else:
+                pass
         except ObjectDoesNotExist:
             send_request_email(request,user,email)
     return render(request,'friend_request.html',{
