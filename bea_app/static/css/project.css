@@ -176,8 +176,12 @@ input, select {
 .activityName, .activityPoints {
     display: inline;
 }
-.activityPoints {
+.activityPoints, .shareActivity {
     float: right;
+}
+.shareActivity {
+    margin-right: 3px;
+    margin-top: 5px;
 }
 .activityField {
     margin-bottom: 0px;

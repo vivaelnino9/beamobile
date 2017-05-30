@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles app_tags %}
+{% block meta %}
+<meta property="og:url"           content="https://beamobile.herokuapp.com/" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Be A" />
+<meta property="og:description"   content="Our mission is to use our product knowledge and creativity to support our clients marketing goals." />
+<meta property="og:image"         content="https://s3.amazonaws.com/beamobile/bea_logo.png" />
+{% endblock %}
 
 {% block content %}
 <div class="row" >
@@ -17,20 +24,25 @@
         <div class="activityFields">
           <p class="activityField"><small>Date Started: {{ activity.challenge.date_start|date:"m/d/y" }}</small></p>
           <p class="activityField"><small>Date Completed: {% if activity.date_completed %}{{ activity.date_completed|date:"m/d/y" }}{% else %}-{% endif %}</small></p>
+          <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeamobile.herokuapp.com%2F&amp;src=sdkpreparse"><img class="shareActivity" src="https://s3.amazonaws.com/beamobile/fb_square_icon.png" width="25px" height="25px"/></a>
+          <a class="twitter-share-button" target="_blank" href="http://twitter.com/share?text=I just completed the challenge: {{ activity.challenge.name }} on&url=https://beamobile.herokuapp.com&hashtags=BE A"><img class="shareActivity" src="https://s3.amazonaws.com/beamobile/twitter_sqaure_icon.png" width="25px" height="25px"/></a>
           <p class="activityField"><small>Status: <span class="status" id="{% get_challenge_status activity.challenge%}">{% get_challenge_status activity.challenge as status %}{{ status|upper }}</span></small></p>
-        </div><hr>
+        </div>
         {% else %}
         <!-- activity is an Act -->
         <h4 class="activityName">{{ activity.name }}</h4>
         <p class="activityPoints">5</p>
         <div class="activityFields">
+          <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbeamobile.herokuapp.com%2F&amp;src=sdkpreparse"><img class="shareActivity" src="https://s3.amazonaws.com/beamobile/fb_square_icon.png" width="25px" height="25px"/></a>
+          <a class="twitter-share-button" target="_blank" href="http://twitter.com/share?text=I just completed an act on&url=https://beamobile.herokuapp.com&hashtags=BE A"><img class="shareActivity" src="https://s3.amazonaws.com/beamobile/twitter_sqaure_icon.png" width="25px" height="25px"/></a>
           <p class="activityField"><small>Date: {{ activity.created_on|date:"m/d/y" }}</small></p>
-        </div><hr>
+        </div>
         {% endif %}
+        <hr>
         {% empty %}
         <p class="emptyActivities">You have not done any activities!</p>
         {% endfor %}
-        <hr><p class="sectionPoints">Total Points: {{ user.get_points }}</p><br><hr>
+        <p class="sectionPoints">Total Points: {{ user.get_points }}</p><br><hr>
         <div class="col-md-4">
           <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_request' %}" role="button">Friend Request</a></p>
           <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_activity' %}" role="button">Friend Activity</a></p>
