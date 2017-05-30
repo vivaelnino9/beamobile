@@ -31,13 +31,9 @@ def register(request,friend_id):
             user = create_user(request,email)
             send_confirmation_email(request,user) # from email.py
             if User.objects.filter(pk=friend_id).exists():
+                # if registering from friend request email
                 friend = User.objects.get(pk=friend_id)
                 Friend.objects.add_friend(friend,user)
-            # ~~~ For Testing ~~~~
-            # email = EmailAddress.objects.get(email=user.email)
-            # user.confirm_email(email.key)
-            # auth_login(request, user)
-            # ~~~~~~~~~~~~~~~~~~~
             registered = True
     else:
         form = UserForm()
@@ -74,7 +70,7 @@ def login(request):
     if request.method == 'POST':
         error = check_login(request)
         if not error: return HttpResponseRedirect(reverse('challenge_list'))
-        
+
     # used for resend_email succesfully sent pop up
     try:
         sent = request.session['sent']
