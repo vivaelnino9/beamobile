@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'bea_app.middleware.bea_middleware.AuthRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'beamobile.urls'
