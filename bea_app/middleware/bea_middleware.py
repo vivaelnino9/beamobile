@@ -8,9 +8,9 @@ class AuthRequiredMiddleware(object):
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-
+        allowed_pages = ['index','admin','login','logout','register','confirm_email','resend_email']
         response = self.get_response(request)
-        if not request.user.is_authenticated() and resolve(request.path_info).url_name != 'index':
+        if not request.user.is_authenticated() and resolve(request.path_info).url_name not in allowed_pages:
             return HttpResponseRedirect(reverse('index'))
 
         # Code to be executed for each request/response after
