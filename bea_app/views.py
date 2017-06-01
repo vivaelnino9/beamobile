@@ -163,6 +163,7 @@ def friend_request(request):
                 already_friends = True
         except ObjectDoesNotExist:
             send_request_email(request,user,email)
+            sent = True
     return render(request,'friend_request.html',{
         'sent':sent,
         'already':already_friends,
