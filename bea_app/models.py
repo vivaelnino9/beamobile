@@ -108,7 +108,7 @@ class Challenge_Status(models.Model):
         verbose_name='User',
         related_name='user',
         null=True,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE
     )
     challenge = models.ForeignKey(
         Challenge,
@@ -146,7 +146,7 @@ class Act(models.Model):
         verbose_name='User',
         related_name='user_act',
         null=True,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE
     )
     name = models.CharField(verbose_name='Name',max_length=50)
     details = models.TextField(verbose_name='Details',max_length=500)
