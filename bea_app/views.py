@@ -17,6 +17,7 @@ from .forms import *
 from .models import *
 
 def index(request):
+    if not request.user.is_anonymous():return HttpResponseRedirect(reverse('challenge_list'))
     return render(request,'index.html')
 
 def register(request,friend_id):
@@ -144,6 +145,8 @@ def my_activity(request):
 @login_required
 def friend_request(request):
     user = request.user
+    sent = False
+    already_friends = False
     if request.method == 'POST':
         email = request.POST.get('email')
         msg = 'Hi! ' + user.get_full_name() + ' would like to add you!'
@@ -155,11 +158,14 @@ def friend_request(request):
                     other_user,    # recipient
                     message=msg
                 )
+                sent = True
             else:
-                pass
+                already_friends = True
         except ObjectDoesNotExist:
             send_request_email(request,user,email)
     return render(request,'friend_request.html',{
+        'sent':sent,
+        'already':already_friends,
     })
 
 @login_required
@@ -178,6 +184,12 @@ def accept_reject_request(request,request_id,accept):
     friend_request.accept() if int(accept) == 1 else friend_request.reject()
     return HttpResponseRedirect(reverse('friend_activity'))
 
+@login_required
+def remove_friend(request,friend_id):
+    user = request.user
+    friend = User.objects.get(pk=friend_id)
+    Friend.objects.remove_friend(user, friend)
+    return HttpResponseRedirect(reverse('friend_activity'))
 ########## HELPERS ###########
 
 def check_login(request):

@@ -1,5 +1,17 @@
+body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative
+}
 footer {
     text-align: center;
+}
+.footerRow {
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.footerLink {
+    color: black;
 }
 select {
     border: 1px solid #ccc;
@@ -15,10 +27,22 @@ input, select {
 /* Nav Bar*/
 
 .navbar {
-    background-color: #eae9e9;
+    background-color: #912889;
+    border-color: #912889;
+}
+.navbar-header, .navbar-nav {
+    min-height: 110px;
+}
+.navbar-nav {
+    padding: 10%;
 }
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: transparent;
+}
+.nav-item.nav-link {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /* endNavBar */

@@ -2,9 +2,16 @@
 {% load staticfiles %}
 
 {% block content %}
-{% if not user.is_anonymous %}
-Hello, {{ user.first_name }}!
-{% else %}
-Not logged in
-{% endif %}
+ <div class="row center">
+   <div class="col-md-12">
+     <div class="row">
+       <div class="col-md-4">
+         <p style="font-size:1.4em;">Be a dreamer, be a believer, be a you!</p>
+         <p style="font-size:1.4em;letter-spacing:.7px;font-weight:300;">Join us in this positive movement!</p>
+         <a href="{% url 'login' %}" class="btn btn-default">Login</a><br>
+          <a href="{% url 'register' -1 %}" class="btn btn-default">Register</a>
+       </div>
+     </div>
+   </div>
+ </div>
 {% endblock %}
