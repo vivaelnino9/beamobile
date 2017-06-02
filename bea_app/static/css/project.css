@@ -230,9 +230,40 @@ input, select {
 }
 .friendRow {
     height: 40px;
+    font-size: 14px;
 }
 .friendName {
     float: left;
+}
+.friendName, .sectionPoints {
+    margin-bottom: 0px;
+}
+#editRow {
+    border: 1px solid #dedede;
+    padding: 10px;
+    display: block;
+    z-index: 5;
+    position: relative;
+    background-color: white;
+}
+.behind_container {
+    position: relative;
+    top: -40px;
+}
+.behind_container a.ui-btn {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    margin: 0px!important;
+    float: right;
+    border: none;
+    color: white;
+    background-color: red;
+    border: 1px solid red;
+    text-shadow: none;
 }
 .friendButton {
     display: inline;
