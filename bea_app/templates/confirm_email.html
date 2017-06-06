@@ -15,11 +15,17 @@
         </div>
         {% else %}
         <!-- email confirmation success page -->
-        <h2>Success!</h2>
-        <h3>You are now logged in!</h3>
+        <div class="center"><h2>Success!</h2></div>
+          <a style="width:100%;text-align:center;display:inline-block;text-decoration:none;padding:15px 20px;background-color:#912889;border:1px solid #912889;border-radius:3px;color:#FFF;font-weight:bold;" href="{% url 'challenge_list' %}">Let's get started</a>
         {% endif %}
       </div>
     </div>
   </div>
 </div>
+<script>
+    function redirect(){
+       window.location.href = "/challenge_list/";
+    }
+    {% if not error  %}setTimeout(redirect, 5000);{% endif %} //5000 is equivalent to 5 seconds
+</script>
 {% endblock %}
