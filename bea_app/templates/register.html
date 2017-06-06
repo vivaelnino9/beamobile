@@ -8,11 +8,11 @@
        {% if registered %}
        <!-- if user just registered -->
        <div class="col-md-4">
-         <h2>Almost there!</h2>
-         <h4>Confirm your email to <a href="{% url 'login' %}">log in!</a></h4>
+         <p style="font-size:1.4em;font-weight:bold;">Almost there!</p>
+         <p style="font-size:1.4em;letter-spacing:.7px;font-weight:300;">Be sure to check <span style="font-weight:bold;">{{ email }}</span> inbox to complete registration!</p>
        </div>
        <div class="col-md-4">
-         <p>Didn't get the email? <a href="{% url 'resend_email' email %}">Click to resend.</a><p>
+         <p style="letter-spacing:.7px;">Didn't get the email? <a href="{% url 'resend_email' email %}">Click to resend.</a><p>
        </div>
        {% else %}
        <!-- registration page -->
