@@ -102,14 +102,14 @@ class UserAdmin(admin.ModelAdmin):
         return obj.get_points()
     get_points.short_description = 'Points'
 
-    def has_add_permission(self, request):
-        return request.user.groups.filter(name='admin').exists()
-
-    def has_change_permission(self, request, obj=None):
-        return request.user.groups.filter(name='admin').exists()
-
-    def has_delete_permission(self, request, obj=None):
-        return request.user.groups.filter(name='admin').exists()
+    # def has_add_permission(self, request):
+    #     return request.user.groups.filter(name='admin').exists()
+    #
+    # def has_change_permission(self, request, obj=None):
+    #     return request.user.groups.filter(name='admin').exists()
+    #
+    # def has_delete_permission(self, request, obj=None):
+    #     return request.user.groups.filter(name='admin').exists()
 
 admin.site.register(User,UserAdmin)
 
