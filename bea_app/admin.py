@@ -3,6 +3,91 @@ from django import forms
 from .models import *
 from .choices import *
 
+from friendship.models import Friend, FriendshipRequest, Follow
+from friendship.admin import FriendAdmin
+from django.contrib.auth.models import Group
+
+
+admin.site.unregister(Friend)
+class FriendAdminForm(forms.ModelForm):
+    model = Friend
+
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ('to_user','from_user','created')
+    search_fields = ['to_user','from_user']
+    list_filter = ['created']
+    list_per_page = 20
+    form = FriendAdminForm
+
+    def get_points(self,obj):
+        return obj.get_points()
+    get_points.short_description = 'Points'
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+admin.site.register(Friend,FriendAdmin)
+
+admin.site.unregister(FriendshipRequest)
+class FriendshipRequestAdminForm(forms.ModelForm):
+    model = FriendshipRequest
+
+class FriendshipRequestAdmin(admin.ModelAdmin):
+    list_display = ('to_user','from_user','created')
+    search_fields = ['to_user','from_user']
+    list_filter = ['created']
+    list_per_page = 20
+    form = FriendshipRequestAdminForm
+
+    def get_points(self,obj):
+        return obj.get_points()
+    get_points.short_description = 'Points'
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+admin.site.register(FriendshipRequest,FriendshipRequestAdmin)
+
+admin.site.unregister(Follow)
+
+admin.site.unregister(Group)
+class GroupAdminForm(forms.ModelForm):
+    model = Group
+
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ['name']
+    list_per_page = 20
+    form = GroupAdminForm
+
+    def get_points(self,obj):
+        return obj.get_points()
+    get_points.short_description = 'Points'
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+admin.site.register(Group,GroupAdmin)
+
+
 class UserAdminForm(forms.ModelForm):
     model = User
 
@@ -16,7 +101,16 @@ class UserAdmin(admin.ModelAdmin):
     def get_points(self,obj):
         return obj.get_points()
     get_points.short_description = 'Points'
-    
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
 admin.site.register(User,UserAdmin)
 
 class ChallengeStatusAdminForm(forms.ModelForm):
@@ -32,6 +126,15 @@ class ChallengeStatusAdmin(admin.ModelAdmin):
     def get_status(self,obj):
         return dict(STATUS_CHOICES).get(int(obj.status))
     get_status.short_description = 'Status'
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
 
 admin.site.register(Challenge_Status,ChallengeStatusAdmin)
 
@@ -57,6 +160,15 @@ class LocationAdmin(admin.ModelAdmin):
     list_per_page = 20
     form = LocationAdminForm
 
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
 admin.site.register(Location,LocationAdmin)
 
 class ChallengeAdminForm(forms.ModelForm):
@@ -80,5 +192,14 @@ class ActAdmin(admin.ModelAdmin):
     list_filter = ['public',]
     list_per_page = 20
     form = ActAdminForm
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
 
 admin.site.register(Act,ActAdmin)
