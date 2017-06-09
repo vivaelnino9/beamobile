@@ -1,10 +1,11 @@
 import random
+import os
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
@@ -191,6 +192,15 @@ def remove_friend(request,friend_id):
     friend = User.objects.get(pk=friend_id)
     Friend.objects.remove_friend(user, friend)
     return HttpResponseRedirect(reverse('friend_activity'))
+
+@login_required
+def redeem_points(request,user_id):
+    API_KEY = os.environ['API_KEY']
+    PASSWORD = os.environ['PASSWORD']
+    shop_url = "https://%s:%s@be-a-rocks.myshopify.com/admin/products.json" % (API_KEY, PASSWORD)
+    return render(request, 'redeem_points.html',{
+        'url':shop_url,
+    })
 ########## HELPERS ###########
 
 def check_login(request):

@@ -1,4 +1,4 @@
-<footer>
+<footer id="footer">
   <ul style="list-style-type: none;text-align:center;padding-left:0px;">
   <li class="footerRow">{% if request.user.is_anonymous %}<a class="footerLink" href="{% url 'login' %}">Login</a>{% else %}<a class="footerLink" href="{% url 'logout' %}">Logout, {{ request.user.first_name }}!</a><br></li>
   <!-- <li class="footerRow"><a class="footerLink" href="{% url 'challenge_list' %}">Current Challenges</a></li>
@@ -7,3 +7,12 @@
   </ul>
   <p style="margin-top:15px;">© Be A 2017</p>
 </footer>
+<script>
+if(window.location.pathname == '/my_activity/')
+  $('#footer').css({
+    'position': 'fixed',
+    'bottom': '0',
+    'width':'100%',
+    'background-color':'white'
+  });
+</script>
