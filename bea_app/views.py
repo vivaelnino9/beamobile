@@ -12,7 +12,6 @@ from django.utils import timezone
 from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
 from six.moves import urllib
-import shopify
 
 from .choices import *
 from .email import *
