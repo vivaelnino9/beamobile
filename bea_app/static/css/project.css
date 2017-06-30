@@ -1,7 +1,8 @@
 body {
     overflow-x: hidden !important;
     width: 100%;
-    position: relative
+    position: relative;
+    background-color: #2BC4CD;
 }
 footer {
     text-align: center;
@@ -44,6 +45,7 @@ input, select {
     font-size: 16px;
     font-weight: bold;
     float: right;
+    margin-left: 90px;
 }
 
 /* endNavBar */
@@ -133,7 +135,7 @@ input, select {
 }
 .stateDropdown {
     color: silver;
-    background-color: transparent;
+    background-color: white;
 }
 .stateDropdown option:checked {
     color: black;
@@ -180,7 +182,7 @@ input, select {
 /* My Activity Page */
 
 .topSection {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .sectionName, .sectionPoints {
     margin-right: 5px;
@@ -193,19 +195,25 @@ input, select {
     float: right;
 }
 .sectionTitle {
-    font-size: 22px;
+    font-size: 18px;
+    display: inline;
+    margin-top: 10px;
 }
 .topHR {
     margin-top: 10px;
 }
 .activityName {
-    margin-bottom: 1px;
+    font-size: 15px;
+    font-weight: bold;
 }
 .activityName, .activityPoints {
     display: inline;
 }
 .activityPoints, .shareActivity {
     float: right;
+}
+.activityPoints {
+    margin: 0px;
 }
 .shareActivity {
     margin-right: 3px;
@@ -226,7 +234,7 @@ input, select {
     position: fixed;
     bottom: 55px;
     width: 300px;
-    background-color: white;
+    background-color: #2BC4CD;
     padding-top: 10px;
 }
 
