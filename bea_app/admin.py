@@ -5,7 +5,9 @@ from .choices import *
 
 from friendship.models import Friend, FriendshipRequest, Follow
 from friendship.admin import FriendAdmin
+from django.conf.urls import url
 from django.contrib.auth.models import Group
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 admin.site.unregister(Friend)
@@ -147,6 +149,17 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_filter = []
     list_per_page = 20
     form = OrganizationAdminForm
+    def get_queryset(self, request):
+        qs = super(OrganizationAdmin, self).get_queryset(request)
+        if request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists():
+            return qs
+        return qs.filter(name=request.user.organization.name)
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
 
 admin.site.register(Organization,OrganizationAdmin)
 

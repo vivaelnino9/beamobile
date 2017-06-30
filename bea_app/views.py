@@ -11,6 +11,8 @@ from django.utils import timezone
 
 from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
+from six.moves import urllib
+import shopify
 
 from .choices import *
 from .email import *
@@ -21,7 +23,7 @@ def index(request):
     if not request.user.is_anonymous():return HttpResponseRedirect(reverse('challenge_list'))
     return render(request,'index.html')
 
-def register(request,friend_id):
+def register(request,friend_id,organization_id):
     # if valid registration form, create user and send email confirmation.
     # user can't log in till email confirmed
     registered = False
@@ -32,13 +34,10 @@ def register(request,friend_id):
             email = request.POST.get('email')
             user = create_user(request,email)
             send_confirmation_email(request,user) # from email.py
-            if User.objects.filter(pk=friend_id).exists():
-                # if registering from friend request email
-                friend = User.objects.get(pk=friend_id)
-                Friend.objects.add_friend(friend,user)
+            extra_user_fields(user,friend_id)
             registered = True
     else:
-        form = UserForm()
+        form = UserForm(organization_id=organization_id)
     return render(request, 'register.html',{
         'form':form,
         'registered':registered,
@@ -195,12 +194,7 @@ def remove_friend(request,friend_id):
 
 @login_required
 def redeem_points(request,user_id):
-    API_KEY = os.environ['API_KEY']
-    PASSWORD = os.environ['PASSWORD']
-    shop_url = "https://%s:%s@be-a-rocks.myshopify.com/admin/products.json" % (API_KEY, PASSWORD)
-    return render(request, 'redeem_points.html',{
-        'url':shop_url,
-    })
+    return render(request, 'redeem_points.html',{})
 ########## HELPERS ###########
 
 def check_login(request):
@@ -229,6 +223,12 @@ def create_user(request,email):
         password=request.POST.get('password'),
     )
     return user
+
+def extra_user_fields(user,friend_id):
+    if User.objects.filter(pk=friend_id).exists():
+        # if registering from friend request email
+        friend = User.objects.get(pk=friend_id)
+        Friend.objects.add_friend(friend,user)
 
 def complete_challenge(user,challenge,form,feeling):
     location_form = form.save(commit=False)

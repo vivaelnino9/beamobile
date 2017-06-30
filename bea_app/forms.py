@@ -15,6 +15,15 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('email','first_name','last_name','zip_code','password')
 
+    def __init__(self, *args, **kwargs):
+        organization_id = kwargs.pop('organization_id', None)
+        if organization_id is not None:
+            if Organization.objects.filter(pk=organization_id).exists():
+                kwargs.update(initial={
+                    'organization': organization_id
+                })
+        super(UserForm, self).__init__(*args, **kwargs)
+
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
         email = cleaned_data.get("email")

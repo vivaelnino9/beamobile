@@ -16,6 +16,9 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
+    def get_users(self):
+        return User.objects.filter(organization=self)
+
 class Location(models.Model):
     address = models.CharField(verbose_name='Address',max_length=50)
     city = models.CharField(verbose_name='City',max_length=50)
