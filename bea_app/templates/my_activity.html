@@ -46,9 +46,9 @@
         <p class="sectionPoints">Points left to redeem: {{ user.get_points }}</p><br>
         <p class="sectionPoints">Points redeemed for Merchandise: 0</p><br><br><hr style="margin-bottom:200px;">
         <div class="col-md-4 fixed">
-          <p class="footerButton"><a class="footerButtonLink" href="{% url 'redeem_points' user.id %}" role="button">Redeem Points</a></p>
-          <p class="footerButton"><a class="footerButtonLink" href="{% url 'friend_activity' %}" role="button">Friend Activity</a></p>
-          <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Back to List</a></p>
+          <a class="footerButtonLink" href="#" role="button"><p class="footerButton">Redeem Points</p></a>
+          <a class="footerButtonLink" href="{% url 'friend_activity' %}" role="button"><p class="footerButton">Friend Activity</p></a>
+          <a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button"><p class="footerButton">Back to List</p></a>
         </div>
       </div>
   </div>

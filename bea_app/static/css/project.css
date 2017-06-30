@@ -237,6 +237,16 @@ input, select {
     background-color: #2BC4CD;
     padding-top: 10px;
 }
+@media screen and (device-aspect-ratio: 375/667) {
+    .fixed {
+        width: 350px;
+    }
+}
+@media screen and (device-aspect-ratio: 414/736) {
+    .fixed {
+        width: 380px;
+    }
+}
 
 /* endActivityPage */
 

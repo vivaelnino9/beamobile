@@ -18,8 +18,8 @@
       </div><hr>
       <div class="col-md-4">
         {% if status == 'Pending' %}<p class="footerButton"><a class="footerButtonLink" href="{% url 'accept_challenge' challenge.id %}" role="button">Accept this Challenge</a></p>{% endif %}
-        <p class="footerButton"><a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button">Back to list</a></p>
-        <p class="footerButton"><a class="footerButtonLink" target="_blank" href="https://www.yellowpages.com/" role="button">Show Yellowpages.com</a></p>
+        <a class="footerButtonLink" href="{% url 'challenge_list' %}" role="button"><p class="footerButton">Back to list</p></a>
+        <a class="footerButtonLink" target="_blank" href="https://www.yellowpages.com/" role="button"><p class="footerButton">Show Yellowpages.com</p></a>
       </div>
     </div>
   </div>
