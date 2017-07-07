@@ -43,6 +43,11 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
         null=True,
         on_delete=models.SET_NULL
     )
+    redeemed_points = models.PositiveIntegerField(
+        verbose_name='Redeemed Points',
+        blank=True,null=True,
+        default=0
+    )
     class Meta:
         db_table = 'users'
 
@@ -65,7 +70,7 @@ class User(SimpleEmailConfirmationUserMixin,AbstractUser):
             challenge_points += challenge.challenge.points
         acts = Act.objects.filter(user=self)
         act_points = len(acts) * 5
-        return challenge_points + act_points
+        return (challenge_points + act_points)-self.redeemed_points
 
 class Challenge(models.Model):
     name = models.CharField(verbose_name='Name',max_length=50)

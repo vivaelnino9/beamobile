@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+ <div class="row center">
+   <div class="col-md-12">
+     <div class="row">
+       <div class="col-md-4">
+         <div class="pageHeader center"><h3 class="sectionTitle">Redeem Confirmation</h3></div>
+         <p style="font-size:1.4em;margin-top:15px;">You have redeemed {{ points }} points  -- please check your email for a merchandise discount code worth ${{ value }}</p>
+         <div class="col-md-4">
+           <a class="footerButtonLink" href="http://store.be-a.rocks" role="button" target="_blank"><p class="footerButton">View Be A Store</p></a>
+           <a class="footerButtonLink" href="{% url 'my_activity' %}" role="button"><p class="footerButton">Back to List</p></a>
+         </div>
+     </div>
+   </div>
+ </div>
+{% endblock %}

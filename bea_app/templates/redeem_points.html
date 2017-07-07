@@ -6,8 +6,25 @@
    <div class="col-md-12">
      <div class="row">
        <div class="col-md-4">
-         <div class="pageHeader center"><h3 class="">Redeem Points</h3></div>
+         <div class="pageHeader center"><h3 class="sectionTitle">Redeem Points</h3></div>
+         <h3>You have <span id="user_points">{{ user.get_points }}</span> points</h3>
+         <form method="post" id="points_form">
+           {% csrf_token %}
+           {% if error %}
+           <div class="alert alert-danger">
+               <strong>{{ error }}</strong>
+           </div>
+           {% endif %}
+           <label for="inputPoints">Points to Redeem</label>
+           <input id="inputPoints" class="redeemInput" type="text" name="points" maxlength="5" size="5" placeholder="{{ user.get_points }}" required>
+           <p><b>Cash value = $<span id="cash_points"></span></b></p>
+         </form><hr>
+         <div class="col-md-4">
+           <a class="footerButtonLink" onclick="document.getElementById('points_form').submit(); return false;" role="button"><p class="footerButton">Redeem Points</p></a>
+           <a class="footerButtonLink" href="{% url 'my_activity' %}" role="button"><p class="footerButton">Back to List</p></a>
+         </div>
      </div>
    </div>
  </div>
+<script src="{% static 'js/redeem_points.js' %}"></script>
 {% endblock %}

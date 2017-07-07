@@ -1,5 +1,8 @@
 import random
 import os
+import json
+import requests
+from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
@@ -12,11 +15,13 @@ from django.utils import timezone
 from friendship.models import Friend, FriendshipRequest
 from simple_email_confirmation.models import EmailAddress
 from six.moves import urllib
+import shopify
 
 from .choices import *
 from .email import *
 from .forms import *
 from .models import *
+from .redeem_points import *
 
 def index(request):
     if not request.user.is_anonymous():return HttpResponseRedirect(reverse('challenge_list'))
@@ -192,8 +197,33 @@ def remove_friend(request,friend_id):
     return HttpResponseRedirect(reverse('friend_activity'))
 
 @login_required
-def redeem_points(request,user_id):
-    return render(request, 'redeem_points.html',{})
+def redeem_points(request):
+    user = request.user
+    error = False
+    if request.method == 'POST':
+        points = request.POST.get('points')
+        error = check_points(points,user)
+        if not error:
+            cash = '%.2f' % (int(points)/100)
+            discount_code = create_discount(cash)
+            if discount_code:
+                return HttpResponseRedirect(reverse('redeem_confirmation',kwargs={'discount_code':discount_code,'value':cash,'points':points}))
+            else:
+                error = 'Something strange has happened, contact an administrator!'
+    return render(request, 'redeem_points.html',{
+        'user':user,
+        'error':error
+    })
+
+@login_required
+def redeem_confirmation(request,discount_code,value,points):
+    user = request.user
+    User.objects.filter(pk=request.user.id).update(redeemed_points=F('redeemed_points')+points)
+    send_redeem_points_email(user,discount_code,value,points)
+    return render(request, 'redeem_confirmation.html',{
+        'value':value,
+        'points':points,
+    })
 ########## HELPERS ###########
 
 def check_login(request):
@@ -247,3 +277,12 @@ def complete_act(user,form):
     act.user = user
     act.public = public
     act.save()
+
+def check_points(points,user):
+    if points is '':
+        return 'Please fill in the number of points to redeem'
+    if int(points) < 0 or int(points) > user.get_points():
+        return 'Please fill in a valid number of points'
+    if int(points) % 5 != 0:
+        return 'Please make your points divisible by 5'
+    return False

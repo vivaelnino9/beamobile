@@ -29,11 +29,21 @@ def send_request_email(request,user,email):
     html = get_template('request_email_template.html')
     send_email(user,url,html,email)
 
+
 def send_email(user,url,html,to):
     # build confirmation email with confirmation_email_template and send it
     context = {'user': user,'url':url}
     text_content = 'plaintext'
     html_content = html.render(context)
     email = EmailMultiAlternatives("Welcome to Be A!", text_content, to=[to])
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
+def send_redeem_points_email(user,discount_code,value,points):
+    context = {'discount_code':discount_code,'value':value,'points':points}
+    text_content = 'plaintext'
+    html_content = get_template('redeem_points_email_template.html').render(context)
+    html = get_template('redeem_points_email_template.html')
+    email = EmailMultiAlternatives("Welcome to Be A!", text_content, to=[user.email])
     email.attach_alternative(html_content, "text/html")
     email.send()
