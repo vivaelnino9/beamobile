@@ -1,3 +1,4 @@
+from datetime import date
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
@@ -44,6 +45,7 @@ def send_redeem_points_email(user,discount_code,value,points):
     text_content = 'plaintext'
     html_content = get_template('redeem_points_email_template.html').render(context)
     html = get_template('redeem_points_email_template.html')
-    email = EmailMultiAlternatives("Welcome to Be A!", text_content, to=[user.email])
+    subject = "Be A Store Discount Code " + str(date.today())
+    email = EmailMultiAlternatives(subject, text_content, to=[user.email])
     email.attach_alternative(html_content, "text/html")
     email.send()
