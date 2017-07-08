@@ -140,6 +140,14 @@ input, select {
 .stateDropdown option:checked {
     color: black;
 }
+@media (min-width: 350px) {
+    #inputAddress {
+        width: 315px;
+    }
+    #locationDiv {
+        width: 100%;
+    }
+}
 
 /* endChallengeDetail */
 
