@@ -35,7 +35,12 @@ input, select {
     min-height: 110px;
 }
 .navbar-nav {
-    padding: 10%;
+    padding: 30px;
+}
+@media (max-width: 350px) {
+    .navbar-nav {
+        padding: 10%;
+    }
 }
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: transparent;
