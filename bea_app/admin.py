@@ -1,16 +1,24 @@
-from django.contrib import admin
 from django import forms
-from .models import *
-from .choices import *
-
-from friendship.models import Friend, FriendshipRequest, Follow
-from friendship.admin import FriendAdmin
+from django.contrib import admin
 from django.conf.urls import url
+from django.contrib.admin import AdminSite
 from django.contrib.auth.models import Group
 from django.contrib.admin.views.decorators import staff_member_required
 
+from friendship.models import Friend, FriendshipRequest, Follow
+from friendship.admin import FriendAdmin
+from simple_email_confirmation.models import EmailAddress
 
-admin.site.unregister(Friend)
+from .models import *
+from .choices import *
+
+class MyAdminSite(AdminSite):
+    site_header = 'Be A Administration'
+    site_url = None
+
+admin_site = MyAdminSite(name='admin')
+
+
 class FriendAdminForm(forms.ModelForm):
     model = Friend
 
@@ -34,9 +42,8 @@ class FriendAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(Friend,FriendAdmin)
+admin_site.register(Friend,FriendAdmin)
 
-admin.site.unregister(FriendshipRequest)
 class FriendshipRequestAdminForm(forms.ModelForm):
     model = FriendshipRequest
 
@@ -60,11 +67,30 @@ class FriendshipRequestAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(FriendshipRequest,FriendshipRequestAdmin)
+admin_site.register(FriendshipRequest,FriendshipRequestAdmin)
 
-admin.site.unregister(Follow)
+class EmailAddressAdminForm(forms.ModelForm):
+    model = EmailAddress
 
-admin.site.unregister(Group)
+class EmailAddressAdmin(admin.ModelAdmin):
+    list_display = ('user','email','key','set_at','confirmed_at')
+    search_fields = ['user','email']
+    list_filter = ['set_at','confirmed_at']
+    list_per_page = 20
+    form = EmailAddressAdminForm
+
+
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists()
+
+admin_site.register(EmailAddress,EmailAddressAdmin)
+
 class GroupAdminForm(forms.ModelForm):
     model = Group
 
@@ -87,7 +113,7 @@ class GroupAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(Group,GroupAdmin)
+admin_site.register(Group,GroupAdmin)
 
 
 class UserAdminForm(forms.ModelForm):
@@ -113,7 +139,7 @@ class UserAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(User,UserAdmin)
+admin_site.register(User,UserAdmin)
 
 class ChallengeStatusAdminForm(forms.ModelForm):
     model = Challenge_Status
@@ -138,7 +164,7 @@ class ChallengeStatusAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(Challenge_Status,ChallengeStatusAdmin)
+admin_site.register(Challenge_Status,ChallengeStatusAdmin)
 
 class OrganizationAdminForm(forms.ModelForm):
     model = Organization
@@ -156,12 +182,12 @@ class OrganizationAdmin(admin.ModelAdmin):
         return qs.filter(name=request.user.organization.name)
 
     def has_add_permission(self, request):
-        return request.user.groups.filter(name='admin').exists()
+        return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.groups.filter(name='admin').exists()
+        return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
 
-admin.site.register(Organization,OrganizationAdmin)
+admin_site.register(Organization,OrganizationAdmin)
 
 class LocationAdminForm(forms.ModelForm):
     model = Location
@@ -182,7 +208,7 @@ class LocationAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(Location,LocationAdmin)
+admin_site.register(Location,LocationAdmin)
 
 class ChallengeAdminForm(forms.ModelForm):
     model = Challenge
@@ -194,7 +220,16 @@ class ChallengeAdmin(admin.ModelAdmin):
     list_per_page = 20
     form = ChallengeAdminForm
 
-admin.site.register(Challenge,ChallengeAdmin)
+    def has_add_permission(self, request):
+        return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
+
+    def has_change_permission(self, request):
+        return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
+
+admin_site.register(Challenge,ChallengeAdmin)
 
 class ActAdminForm(forms.ModelForm):
     model = Act
@@ -215,4 +250,4 @@ class ActAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists()
 
-admin.site.register(Act,ActAdmin)
+admin_site.register(Act,ActAdmin)
