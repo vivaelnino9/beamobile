@@ -26,7 +26,7 @@ def send_confirmation_email(request,user):
     send_email(user,url,html,user.email)
 
 def send_request_email(request,user,email):
-    url = request.build_absolute_uri(reverse('register',args=[user.id]))
+    url = request.build_absolute_uri(reverse('register',args=[user.id,-1]))
     html = get_template('request_email_template.html')
     send_email(user,url,html,email)
 
