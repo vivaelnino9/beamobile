@@ -89,8 +89,14 @@ def logout(request):
 @login_required
 def challenge_list(request):
     user = request.user
-    main_challenge = Challenge.objects.get(is_main_challenge=True)
-    bonus_challenge = Challenge.objects.get(is_bonus_challenge=True)
+    try:
+        main_challenge = Challenge.objects.get(is_main_challenge=True)
+    except ObjectDoesNotExist:
+        main_challenge = False
+    try:
+        bonus_challenge = Challenge.objects.get(is_bonus_challenge=True)
+    except ObjectDoesNotExist:
+        bonus_challenge = False
     return render(request,'challenge_list.html',{
         'main':main_challenge,
         'bonus':bonus_challenge,
