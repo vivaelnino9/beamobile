@@ -223,7 +223,7 @@ class ChallengeAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
 
-    def has_change_permission(self, request):
+    def has_change_permission(self, request, obj=None):
         return request.user.groups.filter(name='admin').exists() or request.user.groups.filter(name='bea_admin').exists()
 
     def has_delete_permission(self, request, obj=None):
