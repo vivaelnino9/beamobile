@@ -43,10 +43,10 @@ class UserForm(forms.ModelForm):
 
         return cleaned_data
 class LocationForm(forms.ModelForm):
-    address = forms.CharField(max_length=50,required=True)
-    city = forms.CharField(max_length=50,required=True)
-    state = forms.ChoiceField(choices=STATE_CHOICES)
-    zip_code = forms.IntegerField()
+    address = forms.CharField(max_length=50,required=False)
+    city = forms.CharField(max_length=50,required=False)
+    state = forms.ChoiceField(choices=STATE_CHOICES,required=False)
+    zip_code = forms.IntegerField(required=False)
     class Meta:
         model = Location
         fields = ('address','city','state','zip_code')

@@ -20,10 +20,26 @@ class Organization(models.Model):
         return User.objects.filter(organization=self)
 
 class Location(models.Model):
-    address = models.CharField(verbose_name='Address',max_length=50)
-    city = models.CharField(verbose_name='City',max_length=50)
-    state = models.CharField(verbose_name='State',max_length=50,choices=STATE_CHOICES)
-    zip_code = models.PositiveIntegerField(verbose_name='Zip Code',)
+    address = models.CharField(
+        verbose_name='Address',
+        max_length=50,
+        blank=True,null=True
+    )
+    city = models.CharField(
+        verbose_name='City',
+        max_length=50,
+        blank=True,null=True
+    )
+    state = models.CharField(
+        verbose_name='State',
+        max_length=50,
+        choices=STATE_CHOICES,
+        blank=True,null=True
+    )
+    zip_code = models.PositiveIntegerField(
+        verbose_name='Zip Code',
+        blank=True,null=True
+    )
     class Meta:
         db_table = 'locations'
 
