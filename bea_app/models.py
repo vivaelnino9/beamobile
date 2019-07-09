@@ -138,6 +138,7 @@ class Challenge_Status(models.Model):
         Challenge,
         verbose_name='Challenge',
         related_name='challenge_status',
+        on_delete=models.CASCADE
     )
     status = models.CharField(
         verbose_name='Status',

@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'bea_app.middleware.bea_middleware.AuthRequiredMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'beamobile.urls'
@@ -142,17 +143,18 @@ STATICFILES_DIRS = (
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Email Settings
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'be.a.challenges@gmail.com'
 try:
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 except KeyError:
     pass
-EMAIL_PORT = 587
 
 # Media Settings
 try:
@@ -163,5 +165,5 @@ try:
     MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 except KeyError:
     pass
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-MEDIA_ROOT = MEDIA_URL

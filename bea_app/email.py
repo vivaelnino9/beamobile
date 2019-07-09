@@ -1,6 +1,6 @@
 from datetime import date
 from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.utils.html import format_html
