@@ -24,7 +24,7 @@ from .models import *
 from .redeem_points import *
 
 def index(request):
-    if not request.user.is_anonymous():return HttpResponseRedirect(reverse('challenge_list'))
+    if not request.user.is_anonymous:return HttpResponseRedirect(reverse('challenge_list'))
     return render(request,'index.html')
 
 def register(request,friend_id,organization_id):
