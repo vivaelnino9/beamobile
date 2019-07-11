@@ -150,10 +150,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'be.a.challenges@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 try:
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 except KeyError:
