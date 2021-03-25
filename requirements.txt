@@ -29,7 +29,7 @@ pyactiveresource==2.1.2
 Pygments==2.4.2
 pyparsing==2.4.0
 pytz==2019.1
-PyYAML==5.1.1
+PyYAML==5.4
 requests==2.22.0
 ShopifyAPI==5.1.0
 simplegeneric==0.8.1
